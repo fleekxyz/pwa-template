@@ -1,0 +1,13 @@
+:root {
+  --black: #000000;
+  --slate-dark-4: #26292b;
+  --slate-dark-11: #9ba1a6;
+  --slate-dark-10: #787f85;
+  --slate-dark-1: #151718;
+
+  --fs-small: 14px;
+}
+
+body {
+  background-color: var(--black);
+}
