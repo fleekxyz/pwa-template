@@ -4,24 +4,25 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'Fleek PWA Template',
     short_name: 'Fleek PWA Template',
+    orientation: 'any',
     icons: [
       {
-        src: '/icons/flk-48.png',
+        src: 'icons/flk-48.png',
         sizes: '48x48',
         type: 'image/png',
       },
       {
-        src: '/icons/flk-96.png',
+        src: 'icons/flk-96.png',
         sizes: '96x96',
         type: 'image/png',
       },
       {
-        src: '/icons/flk-128.png',
+        src: 'icons/flk-128.png',
         sizes: '128x128',
         type: 'image/png',
       },
       {
-        src: '/icons/flk-256.png',
+        src: 'icons/flk-256.png',
         sizes: '256x256',
         type: 'image/png',
       },
