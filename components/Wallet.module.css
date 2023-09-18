@@ -6,6 +6,12 @@
   width: 194px;
 }
 
+@media screen and (max-width: 800px) {
+  .container {
+    width: max-content;
+  }
+}
+
 .avatar {
   width: 20px;
   border-radius: 20px;

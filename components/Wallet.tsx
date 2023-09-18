@@ -5,6 +5,7 @@ import jazzicon from '@metamask/jazzicon'
 import { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { usePrivy, useWallets } from '@privy-io/react-auth'
 import { formatAddress } from '../lib/format'
+import { useWindowWidth } from '../lib/useWindowWidth'
 
 export const Wallet = () => {
   const { wallet: activeWallet, ready, setActiveWallet } = usePrivyWagmi()
@@ -37,6 +38,10 @@ export const Wallet = () => {
 
   const handleError = () => setFetchable(false)
 
+  const windowWidth = useWindowWidth()
+
+  const isMobile = useMemo(() => windowWidth < 800, [windowWidth])
+
   return (
     <details className={styles.container}>
       <summary className={styles.summary}>
@@ -51,7 +56,9 @@ export const Wallet = () => {
           <span className={styles.iconRef} ref={iconRef} />
         )}
         <span className={styles.address}>
-          {ready && account ? ens || formatAddress(account) : 'Loading...'}
+          {ready && account
+            ? ens || formatAddress(account, isMobile ? 2 : 4)
+            : 'Loading...'}
         </span>
         <img
           className={styles.chevron}
@@ -70,7 +77,7 @@ export const Wallet = () => {
                   setActiveWallet(wallet)
                 }}
               >
-                {formatAddress(wallet.address, 7)}
+                {formatAddress(wallet.address, isMobile ? 3 : 7)}
               </button>
             </li>
           ))}

@@ -1,7 +1,8 @@
 import { Wallet } from './Wallet'
+import styles from './NavBar.module.css'
 
 export const NavBar = () => (
-  <nav>
+  <nav className={styles.nav}>
     <Wallet />
   </nav>
 )

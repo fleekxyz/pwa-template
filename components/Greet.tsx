@@ -3,7 +3,8 @@
 import { usePrivy } from '@privy-io/react-auth'
 import { Wallet } from './Wallet'
 
-import styles from './Greet.module.css'
+import { LoginScreen } from './LoginScreen'
+import { NavBar } from './NavBar'
 
 export const Greet = () => {
   const { ready, authenticated, login } = usePrivy()
@@ -13,14 +14,10 @@ export const Greet = () => {
   }
 
   if (ready && !authenticated) {
-    return (
-      <button className={styles.login} onClick={login}>
-        Login
-      </button>
-    )
+    return <LoginScreen login={login} />
   }
 
   if (ready && authenticated) {
-    return <Wallet />
+    return <NavBar />
   }
 }

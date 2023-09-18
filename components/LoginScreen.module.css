@@ -10,3 +10,19 @@
   font-size: 14px;
   border: none;
 }
+
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  height: 100%;
+}
+.h2 {
+  font-weight: 400;
+}
+
+.h1 {
+  font-size: 48px;
+}
