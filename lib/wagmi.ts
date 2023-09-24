@@ -1,5 +1,4 @@
-import { PrivyWagmiConnector } from '@privy-io/wagmi-connector'
-import { mainnet, goerli } from 'viem/chains'
+import { mainnet, goerli } from 'wagmi/chains'
 import { configureChains } from 'wagmi'
 import { publicProvider } from 'wagmi/providers/public'
 

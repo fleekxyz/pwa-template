@@ -1,6 +1,7 @@
 import { Provider } from '../components/Provider'
 import { Manrope } from 'next/font/google'
 import '../global.css'
+import { NavBar } from '../components/NavBar'
 
 export const metadata = {
   title: 'Fleek PWA Template',
@@ -27,7 +28,10 @@ export default function RootLayout({
       <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
       <body className={manrope.className}>
-        <Provider>{children}</Provider>
+        <Provider>
+          <NavBar />
+          <main>{children}</main>
+        </Provider>
       </body>
     </html>
   )

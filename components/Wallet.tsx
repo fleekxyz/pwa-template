@@ -1,97 +1,79 @@
-import { usePrivyWagmi } from '@privy-io/wagmi-connector'
+'use client'
+
 import styles from './Wallet.module.css'
-import { useEnsAvatar, useEnsName } from 'wagmi'
-import jazzicon from '@metamask/jazzicon'
-import { useLayoutEffect, useMemo, useRef, useState } from 'react'
-import { usePrivy, useWallets } from '@privy-io/react-auth'
+import { useEnsAvatar } from 'wagmi'
+
+import { useEffect, useMemo } from 'react'
+import { ConnectedWallet, usePrivy, useWallets } from '@privy-io/react-auth'
 import { formatAddress } from '../lib/format'
 import { useWindowWidth } from '../lib/useWindowWidth'
+import { Avatar } from './Avatar'
+import { useRouter } from 'next/navigation'
+import { Dropdown } from './Dropdown'
 
-export const Wallet = () => {
-  const { wallet: activeWallet, ready, setActiveWallet } = usePrivyWagmi()
-  const { logout } = usePrivy()
+export const Wallet = ({
+  wallet: currentWallet,
+  setActiveWallet,
+  ens,
+}: {
+  wallet: ConnectedWallet
+  setActiveWallet: (w: ConnectedWallet) => Promise<void>
+  ens: string
+}) => {
+  const { logout, authenticated, ready } = usePrivy()
   const { wallets } = useWallets()
   const { data: avatar } = useEnsAvatar()
-  const { data: ens } = useEnsName()
-  const account = activeWallet?.address
 
-  const [fetchable, setFetchable] = useState(true)
-  const icon = useMemo(
-    () => account && jazzicon(20, parseInt(account.slice(2, 10), 16)),
-    [account],
-  )
-  const iconRef = useRef<HTMLDivElement>(null)
-  useLayoutEffect(() => {
-    const current = iconRef.current
-    if (icon) {
-      current?.appendChild(icon)
-      return () => {
-        try {
-          current?.removeChild(icon)
-        } catch (e) {
-          console.error('Avatar icon not found')
-        }
-      }
-    }
-    return
-  }, [icon, iconRef])
-
-  const handleError = () => setFetchable(false)
-
+  const router = useRouter()
   const windowWidth = useWindowWidth()
-
   const isMobile = useMemo(() => windowWidth < 800, [windowWidth])
 
+  useEffect(() => {
+    if (ready && !authenticated) router.push('/')
+  }, [authenticated, ready])
+
+  if (!currentWallet) return <></>
+
   return (
-    <details className={styles.container}>
-      <summary className={styles.summary}>
-        {avatar && fetchable ? (
-          <img
-            src={avatar}
-            alt="avatar"
-            className={styles.avatar || jazzicon(20)}
-            onError={handleError}
-          />
-        ) : (
-          <span className={styles.iconRef} ref={iconRef} />
-        )}
-        <span className={styles.address}>
-          {ready && account
-            ? ens || formatAddress(account, isMobile ? 2 : 4)
-            : 'Loading...'}
-        </span>
-        <img
-          className={styles.chevron}
-          src="/chevron-down.svg"
-          alt="chevron-down"
-        />
-      </summary>
-      <ul className={styles.walletList}>
-        {wallets
-          .filter((w) => w.address !== account)
-          .map((wallet) => (
-            <li>
-              <button
-                className={styles.button}
-                onClick={() => {
-                  setActiveWallet(wallet)
-                }}
-              >
-                {formatAddress(wallet.address, isMobile ? 3 : 7)}
-              </button>
-            </li>
-          ))}
-        {ready ? (
+    <Dropdown
+      summary={
+        <>
+          <Avatar {...{ avatar }} address={currentWallet.address} />
+          <span className={styles.address}>
+            {currentWallet.isConnected
+              ? ens || formatAddress(currentWallet.address, isMobile ? 2 : 4)
+              : 'Loading...'}
+          </span>
+        </>
+      }
+    >
+      {currentWallet ? (
+        <ul className={styles.walletList}>
+          {wallets
+            .filter((w) => w.address !== currentWallet.address)
+            .map((wallet) => (
+              <li key={wallet.address}>
+                <button
+                  className={styles.button}
+                  onClick={() => {
+                    setActiveWallet(wallet)
+                  }}
+                >
+                  {formatAddress(wallet.address, isMobile ? 3 : 7)}{' '}
+                </button>
+              </li>
+            ))}
           <button
             className={styles.button}
             onClick={() => {
               logout()
+              router.push('/')
             }}
           >
             Disconnect
           </button>
-        ) : undefined}
-      </ul>
-    </details>
+        </ul>
+      ) : undefined}
+    </Dropdown>
   )
 }

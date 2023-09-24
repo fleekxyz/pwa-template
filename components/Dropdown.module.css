@@ -1,0 +1,42 @@
+.details {
+  background-color: var(--slate-dark-4);
+  padding: 12px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  width: 194px;
+  position: relative;
+}
+
+@media screen and (max-width: 800px) {
+  .details {
+    width: max-content;
+  }
+}
+
+.summary {
+  background-image: none;
+  appearance: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+
+.chevron {
+  transition: 300ms;
+}
+
+.container[open] .chevron {
+  transform: rotate(180deg);
+}
+.details button {
+  border: none;
+  background-color: var(--slate-dark-1);
+  color: var(--slate-dark-11);
+  padding: 8px;
+  border-radius: 12px;
+  cursor: pointer;
+  width: 100%;
+}
