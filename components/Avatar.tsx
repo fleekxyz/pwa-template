@@ -1,3 +1,5 @@
+'use client'
+
 import { useState, useMemo, useRef, useLayoutEffect } from 'react'
 import jazzicon from '@metamask/jazzicon'
 import styles from './Avatar.module.css'
@@ -5,9 +7,11 @@ import styles from './Avatar.module.css'
 export const Avatar = ({
   avatar,
   address,
+  size = 20,
 }: {
   avatar: string
   address: string
+  size?: number
 }) => {
   const [fetchable, setFetchable] = useState(true)
   const icon = useMemo(
@@ -38,6 +42,8 @@ export const Avatar = ({
       alt="avatar"
       className={styles.avatar || jazzicon(20)}
       onError={handleError}
+      width={size}
+      height={size}
     />
   ) : (
     <span className={styles.iconRef} ref={iconRef} />

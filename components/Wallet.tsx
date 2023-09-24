@@ -5,7 +5,7 @@ import { useEnsAvatar } from 'wagmi'
 
 import { useEffect, useMemo } from 'react'
 import { ConnectedWallet, usePrivy, useWallets } from '@privy-io/react-auth'
-import { formatAddress } from '../lib/format'
+import { formatAddress } from '../lib/formatAddress'
 import { useWindowWidth } from '../lib/useWindowWidth'
 import { Avatar } from './Avatar'
 import { useRouter } from 'next/navigation'
