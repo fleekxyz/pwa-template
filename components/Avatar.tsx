@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useMemo, useRef, useLayoutEffect } from 'react'
-import jazzicon from '@metamask/jazzicon'
+import { useState, useMemo } from 'react'
+import { minidenticon } from 'minidenticons'
 import styles from './Avatar.module.css'
 
 export const Avatar = ({
@@ -9,43 +9,31 @@ export const Avatar = ({
   address,
   size = 20,
 }: {
-  avatar: string
+  avatar?: string
   address: string
   size?: number
 }) => {
   const [fetchable, setFetchable] = useState(true)
-  const icon = useMemo(
-    () => address && jazzicon(20, parseInt(address.slice(2, 10), 16)),
+  const svgURI = useMemo(
+    () =>
+      address &&
+      'data:image/svg+xml;utf8,' +
+        encodeURIComponent(minidenticon(address.slice(2, 10))),
     [address],
   )
-  const iconRef = useRef<HTMLDivElement>(null)
-  useLayoutEffect(() => {
-    const current = iconRef.current
-    if (icon) {
-      current?.appendChild(icon)
-      return () => {
-        try {
-          current?.removeChild(icon)
-        } catch (e) {
-          console.error('Avatar icon not found')
-        }
-      }
-    }
-    return
-  }, [icon, iconRef])
 
   const handleError = () => setFetchable(false)
 
-  return avatar && fetchable ? (
+  console.log({ address, avatar })
+
+  return (
     <img
-      src={avatar}
+      src={fetchable && avatar ? avatar : svgURI}
       alt="avatar"
-      className={styles.avatar || jazzicon(20)}
+      className={styles.avatar}
       onError={handleError}
       width={size}
       height={size}
     />
-  ) : (
-    <span className={styles.iconRef} ref={iconRef} />
   )
 }

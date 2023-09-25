@@ -9,7 +9,12 @@ export type EnsNameData = {
   name: string
 }
 
-export type SocialMediaType = 'twitter' | 'github' | 'telegram' | 'discord'
+export type SocialMediaType =
+  | 'twitter'
+  | 'github'
+  | 'telegram'
+  | 'discord'
+  | 'reddit'
 
 export enum CoinType {
   btc = 0,
@@ -25,7 +30,7 @@ export enum CoinType {
 }
 
 export type FormattedEnsData = {
-  socials: { type: SocialMediaType; url: string }[]
+  socials: { type: SocialMediaType; handle: string }[]
   coins: { type: string; address: string }[]
 } & Partial<{
   description: string

@@ -5,15 +5,15 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
-  '@metamask/jazzicon':
-    specifier: ^2.0.0
-    version: 2.0.0
   '@privy-io/react-auth':
     specifier: ^1.38.0
     version: 1.38.0(@babel/core@7.22.20)(@types/react@18.2.21)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)
   '@privy-io/wagmi-connector':
     specifier: ^0.1.3
     version: 0.1.3(@privy-io/react-auth@1.38.0)(react-dom@18.2.0)(react@18.2.0)(viem@1.12.2)(wagmi@1.4.2)
+  minidenticons:
+    specifier: ^4.2.0
+    version: 4.2.0
   next:
     specifier: ^13.4.19
     version: 13.4.19(@babel/core@7.22.20)(react-dom@18.2.0)(react@18.2.0)
@@ -665,13 +665,6 @@ packages:
       tweetnacl-util: 0.15.1
     transitivePeerDependencies:
       - supports-color
-    dev: false
-
-  /@metamask/jazzicon@2.0.0:
-    resolution: {integrity: sha512-7M+WSZWKcQAo0LEhErKf1z+D3YX0tEDAcGvcKbDyvDg34uvgeKR00mFNIYwAhdAS9t8YXxhxZgsrRBBg6X8UQg==}
-    dependencies:
-      color: 0.11.4
-      mersenne-twister: 1.1.0
     dev: false
 
   /@metamask/safe-event-emitter@2.0.0:
@@ -2101,11 +2094,6 @@ packages:
       wrap-ansi: 6.2.0
     dev: false
 
-  /clone@1.0.4:
-    resolution: {integrity: sha512-JQHZ2QMW6l3aH/j6xCqQThY/9OH4D/9ls34cgkUBiEeocRTU04tHfKPBsUK1PqZCUQM7GiA0IIXJSuXHI64Kbg==}
-    engines: {node: '>=0.8'}
-    dev: false
-
   /clsx@1.2.1:
     resolution: {integrity: sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==}
     engines: {node: '>=6'}
@@ -2130,20 +2118,6 @@ packages:
 
   /color-name@1.1.4:
     resolution: {integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==}
-    dev: false
-
-  /color-string@0.3.0:
-    resolution: {integrity: sha512-sz29j1bmSDfoAxKIEU6zwoIZXN6BrFbAMIhfYCNyiZXBDuU/aiHlN84lp/xDzL2ubyFhLDobHIlU1X70XRrMDA==}
-    dependencies:
-      color-name: 1.1.4
-    dev: false
-
-  /color@0.11.4:
-    resolution: {integrity: sha512-Ajpjd8asqZ6EdxQeqGzU5WBhhTfJ/0cA4Wlbre7e5vXfmDSmda7Ov6jeKoru+b0vHcb1CqvuroTHp5zIWzhVMA==}
-    dependencies:
-      clone: 1.0.4
-      color-convert: 1.9.3
-      color-string: 0.3.0
     dev: false
 
   /colorette@2.0.20:
@@ -2986,12 +2960,13 @@ packages:
       is-buffer: 1.1.6
     dev: false
 
-  /mersenne-twister@1.1.0:
-    resolution: {integrity: sha512-mUYWsMKNrm4lfygPkL3OfGzOPTR2DBlTkBNHM//F6hGp8cLThY897crAlk3/Jo17LEOOjQUrNAx6DvgO77QJkA==}
-    dev: false
-
   /micro-ftch@0.3.1:
     resolution: {integrity: sha512-/0LLxhzP0tfiR5hcQebtudP56gUurs2CLkGarnCiB/OqEyUFQ6U3paQi/tgLv0hBJYt2rnr9MNpxz4fiiugstg==}
+    dev: false
+
+  /minidenticons@4.2.0:
+    resolution: {integrity: sha512-2T3VU1N30yI3kXMRbdLsJ5DgsBoGLi2+2hbm1xTOU2RQXWW5wwpmz9XQohVSsVlhymf4W69sMGj6s39t796PBA==}
+    engines: {node: '>=15.14.0'}
     dev: false
 
   /minimalistic-assert@1.0.1:

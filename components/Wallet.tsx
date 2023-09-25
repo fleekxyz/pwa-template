@@ -22,7 +22,7 @@ export const Wallet = ({
 }) => {
   const { logout, authenticated, ready } = usePrivy()
   const { wallets } = useWallets()
-  const { data: avatar } = useEnsAvatar()
+  const { data: avatar } = useEnsAvatar({ name: ens })
 
   const router = useRouter()
   const windowWidth = useWindowWidth()

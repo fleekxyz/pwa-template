@@ -5,7 +5,6 @@ import {
   FormattedEnsData,
   SocialMediaType,
 } from './types'
-import { getEnsText } from 'viem/ens'
 import { mainnet } from 'viem/chains'
 
 const publicClient = createPublicClient({
@@ -22,7 +21,7 @@ export const formatEnsData = async ({ resolver, name }: EnsNameData) => {
     if (tldRegex.test(record)) {
       data.socials.push({
         type: record.slice(4) as SocialMediaType,
-        url: await publicClient.getEnsText({ key: record, name }),
+        handle: await publicClient.getEnsText({ key: record, name }),
       })
     } else {
       data[record] = await publicClient.getEnsText({ key: record, name })
