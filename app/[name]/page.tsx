@@ -53,10 +53,7 @@ export default async function ProfilePage({
 
   if (!data) return notFound()
 
-  const formattedData = {
-    ...(await formatEnsData(data)),
-    location: 'London, UK',
-  }
+  const formattedData = await formatEnsData(data)
 
   const links = formattedData.socials.filter((x) => x.type in SOCIAL_ICONS)
 
@@ -103,6 +100,11 @@ export default async function ProfilePage({
             </Link>
           )
         })}
+      </div>
+      <div>
+        {formattedData.coins.map((coin) => (
+          <Link href={`/${coin.address}`}>{coin.type}</Link>
+        ))}
       </div>
       {formattedData.description ? <p>{formattedData.description}</p> : null}
     </main>

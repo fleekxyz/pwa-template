@@ -1,4 +1,4 @@
-import { createPublicClient, http } from 'viem'
+import { createPublicClient, fromHex, http } from 'viem'
 import { CoinType, EnsNameData, FormattedEnsData, LinkType } from './types'
 import { mainnet } from 'viem/chains'
 
@@ -31,13 +31,17 @@ export const formatEnsData = async ({ resolver, name }: EnsNameData) => {
   }
 
   for (const coinType of resolver.coinTypes) {
-    data.coins.push({
-      type: CoinType[parseInt(coinType)],
-      address: await publicClient.getEnsAddress({
-        coinType: parseInt(coinType),
-        name,
-      }),
+    const hexAddress = await publicClient.getEnsAddress({
+      coinType: parseInt(coinType),
+      name,
     })
+
+    if (hexAddress) {
+      data.coins.push({
+        type: CoinType[parseInt(coinType)],
+        address: hexAddress,
+      })
+    }
   }
 
   return data
