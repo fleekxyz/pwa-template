@@ -22,7 +22,6 @@ export const Wallet = ({
 }) => {
   const { logout, authenticated, ready } = usePrivy()
   const { wallets } = useWallets()
-  const { data: avatar } = useEnsAvatar({ name: ens })
 
   const router = useRouter()
   const windowWidth = useWindowWidth()
@@ -38,7 +37,7 @@ export const Wallet = ({
     <Dropdown
       summary={
         <>
-          <Avatar {...{ avatar }} address={currentWallet.address} />
+          <Avatar address={currentWallet.address} ens={ens} />
           <span className={styles.address}>
             {currentWallet.isConnected
               ? ens || formatAddress(currentWallet.address, isMobile ? 2 : 4)

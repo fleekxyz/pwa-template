@@ -7,22 +7,22 @@ export default function manifest(): MetadataRoute.Manifest {
     orientation: 'any',
     icons: [
       {
-        src: 'icons/flk-48.png',
+        src: 'manifest/flk-48.png',
         sizes: '48x48',
         type: 'image/png',
       },
       {
-        src: 'icons/flk-96.png',
+        src: 'manifest/flk-96.png',
         sizes: '96x96',
         type: 'image/png',
       },
       {
-        src: 'icons/flk-128.png',
+        src: 'manifest/flk-128.png',
         sizes: '128x128',
         type: 'image/png',
       },
       {
-        src: 'icons/flk-256.png',
+        src: 'manifest/flk-256.png',
         sizes: '256x256',
         type: 'image/png',
       },

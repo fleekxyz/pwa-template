@@ -1,10 +1,16 @@
+.container {
+  position: relative;
+}
+
 .details {
   background-color: var(--slate-dark-4);
   padding: 12px 14px;
   border-radius: 12px;
   cursor: pointer;
   width: 194px;
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 @media screen and (max-width: 800px) {

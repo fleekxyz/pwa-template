@@ -1,17 +1,42 @@
 .main {
   max-width: 800px;
   margin: 0 auto;
+  flex-direction: column;
+  gap: 36px;
+  padding-top: 64px;
+}
+
+.header,
+.main,
+.links,
+.location {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.location {
+  gap: 4px;
+}
+
+.header {
   flex-direction: column;
+  gap: 12px;
 }
 
 .links {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: row;
-  overflow-x: auto;
   gap: 24px;
+}
+
+.icon {
+  transition: 250ms;
+}
+
+.icon:hover {
+  transform: scale(1.125);
+}
+
+.link {
+  text-decoration: none;
 }

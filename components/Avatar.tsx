@@ -1,39 +1,69 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { minidenticon } from 'minidenticons'
 import styles from './Avatar.module.css'
+import Image from 'next/image'
+import { zeroAddress } from 'viem'
 
 export const Avatar = ({
-  avatar,
+  ens,
   address,
-  size = 20,
+  size = 32,
+  sizes,
 }: {
-  avatar?: string
   address: string
   size?: number
+  ens: string
+  sizes?: string
 }) => {
-  const [fetchable, setFetchable] = useState(true)
   const svgURI = useMemo(
     () =>
-      address &&
-      'data:image/svg+xml;utf8,' +
-        encodeURIComponent(minidenticon(address.slice(2, 10))),
+      `data:image/svg+xml;utf8,${encodeURIComponent(
+        minidenticon(address ? address.slice(2, 10) : zeroAddress),
+      )}`,
     [address],
   )
 
-  const handleError = () => setFetchable(false)
+  const [isLoadingFailed, setLoadingFailed] = useState(false)
 
-  console.log({ address, avatar })
+  useEffect(() => {
+    setLoadingFailed(false)
+  }, [ens, address])
+
+  const ensAvatarUrl = `https://metadata.ens.domains/mainnet/avatar/${ens}`
 
   return (
-    <img
-      src={fetchable && avatar ? avatar : svgURI}
-      alt="avatar"
-      className={styles.avatar}
-      onError={handleError}
-      width={size}
-      height={size}
-    />
+    <div>
+      {isLoadingFailed ? (
+        <div style={{ height: size, width: size }}>
+          <img
+            src={svgURI}
+            height={size}
+            width={size}
+            sizes={sizes}
+            className={styles.avatar}
+            alt="avatar"
+          />
+        </div>
+      ) : (
+        <Image
+          src={ensAvatarUrl}
+          alt="avatar"
+          className={styles.avatar}
+          sizes={sizes}
+          width={size}
+          height={size}
+          onLoadingComplete={(result) => {
+            if (result.naturalWidth === 0) {
+              setLoadingFailed(true)
+            }
+          }}
+          onError={() => {
+            setLoadingFailed(true)
+          }}
+        />
+      )}
+    </div>
   )
 }

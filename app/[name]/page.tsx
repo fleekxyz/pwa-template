@@ -53,36 +53,58 @@ export default async function ProfilePage({
 
   if (!data) return notFound()
 
-  const formattedData = await formatEnsData(data)
+  const formattedData = {
+    ...(await formatEnsData(data)),
+    location: 'London, UK',
+  }
+
+  const links = formattedData.socials.filter((x) => x.type in SOCIAL_ICONS)
 
   return (
     <main className={styles.main}>
-      <Avatar
-        size={128}
-        address={data.resolvedAddress.id}
-        avatar={`https://metadata.ens.domains/mainnet/avatar/${params.name}`}
-      />
-      <h1>{data.name}</h1>
+      <header className={styles.header}>
+        <Avatar
+          sizes="(max-width: 768px) 224px, (max-width: 1200px) 256px, 320px"
+          address={data.resolvedAddress.id}
+          ens={params.name}
+        />
+        <h1>{data.name}</h1>
+        {formattedData.location ? (
+          <p className={styles.location}>
+            <Image
+              src="/icons/location.svg"
+              height={24}
+              width={24}
+              alt="Location:"
+            />{' '}
+            {formattedData.location}
+          </p>
+        ) : null}
+      </header>
       <div className={styles.links}>
-        {formattedData.socials
-          .filter((x) => x.type in SOCIAL_ICONS)
-          .map((social) => {
-            const { imagePath, baseURL } = SOCIAL_ICONS[social.type]
+        {links.map((social) => {
+          const { imagePath, baseURL } = SOCIAL_ICONS[social.type]
 
-            if (!social.handle) return null
+          if (!social.handle) return null
 
-            return (
-              <Link href={`${baseURL}/${social.handle}`}>
-                <Image
-                  src={imagePath}
-                  alt={social.type}
-                  width={32}
-                  height={32}
-                />
-              </Link>
-            )
-          })}
+          return (
+            <Link
+              className={styles.link}
+              href={`${baseURL}/${social.handle}`}
+              key={social.type}
+            >
+              <Image
+                src={imagePath}
+                alt={social.type}
+                width={32}
+                height={32}
+                className={styles.icon}
+              />
+            </Link>
+          )
+        })}
       </div>
+      {formattedData.description ? <p>{formattedData.description}</p> : null}
     </main>
   )
 }

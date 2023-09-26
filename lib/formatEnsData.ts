@@ -1,10 +1,5 @@
 import { createPublicClient, http } from 'viem'
-import {
-  CoinType,
-  EnsNameData,
-  FormattedEnsData,
-  SocialMediaType,
-} from './types'
+import { CoinType, EnsNameData, FormattedEnsData, LinkType } from './types'
 import { mainnet } from 'viem/chains'
 
 const publicClient = createPublicClient({
@@ -18,13 +13,20 @@ export const formatEnsData = async ({ resolver, name }: EnsNameData) => {
   const data: FormattedEnsData = { coins: [], socials: [] }
 
   for (const record of resolver.texts) {
+    const text = await publicClient.getEnsText({ key: record, name })
+
     if (tldRegex.test(record)) {
       data.socials.push({
-        type: record.slice(4) as SocialMediaType,
-        handle: await publicClient.getEnsText({ key: record, name }),
+        type: record.slice(4) as LinkType,
+        handle: text,
+      })
+    } else if (['url', 'email'].includes(record)) {
+      data.socials.push({
+        type: record as LinkType,
+        handle: text,
       })
     } else {
-      data[record] = await publicClient.getEnsText({ key: record, name })
+      data[record] = text
     }
   }
 

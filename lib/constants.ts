@@ -1,7 +1,7 @@
-import { SocialMediaType } from './types'
+import { LinkType } from './types'
 
 export const SOCIAL_ICONS: Record<
-  SocialMediaType,
+  LinkType,
   {
     imagePath: string
     baseURL: string
@@ -9,11 +9,11 @@ export const SOCIAL_ICONS: Record<
 > = {
   discord: {
     baseURL: 'https://discordapp.com/users',
-    imagePath: '/socials/discord.svg',
+    imagePath: '/icons/discord.svg',
   },
   github: {
     baseURL: 'https://github.com',
-    imagePath: '/socials/github.svg',
+    imagePath: '/icons/github.svg',
   },
   twitter: {
     imagePath: 'https://twitter.com',
@@ -21,10 +21,18 @@ export const SOCIAL_ICONS: Record<
   },
   telegram: {
     baseURL: 'https://t.me',
-    imagePath: '/socials/telegram.svg',
+    imagePath: '/icons/telegram.svg',
   },
   reddit: {
     baseURL: 'https://reddit.com/u',
-    imagePath: '/socials/reddit.svg',
+    imagePath: '/icons/reddit.svg',
+  },
+  email: {
+    imagePath: '/icons/email.svg',
+    baseURL: 'mailto:',
+  },
+  url: {
+    imagePath: '/icons/globe.svg',
+    baseURL: '',
   },
 }

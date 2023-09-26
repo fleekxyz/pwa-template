@@ -9,16 +9,18 @@ export const Dropdown = ({
   summary: ReactNode
 }) => {
   return (
-    <details className={styles.details}>
-      <summary className={styles.summary}>
-        {summary}
-        <img
-          className={styles.chevron}
-          src="/chevron-down.svg"
-          alt="chevron-down"
-        />
-      </summary>
-      {children}
-    </details>
+    <div className={styles.container}>
+      <details className={styles.details}>
+        <summary className={styles.summary}>
+          {summary}
+          <img
+            className={styles.chevron}
+            src="/chevron-down.svg"
+            alt="chevron-down"
+          />
+        </summary>
+        {children}
+      </details>
+    </div>
   )
 }
