@@ -65,6 +65,7 @@ export const Wallet = ({
           <button
             className={styles.button}
             onClick={() => {
+              currentWallet.disconnect()
               logout()
               router.push('/')
             }}
