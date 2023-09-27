@@ -1,5 +1,5 @@
-import { createPublicClient, fromHex, http } from 'viem'
-import { CoinType, EnsNameData, FormattedEnsData, LinkType } from './types'
+import { createPublicClient, http } from 'viem'
+import { EnsNameData, FormattedEnsData, LinkType } from './types'
 import { mainnet } from 'viem/chains'
 
 const publicClient = createPublicClient({
@@ -18,29 +18,15 @@ export const formatEnsData = async ({ resolver, name }: EnsNameData) => {
     if (tldRegex.test(record)) {
       data.socials.push({
         type: record.slice(4) as LinkType,
-        handle: text,
+        text,
       })
     } else if (['url', 'email'].includes(record)) {
       data.socials.push({
         type: record as LinkType,
-        handle: text,
+        text,
       })
     } else {
       data[record] = text
-    }
-  }
-
-  for (const coinType of resolver.coinTypes) {
-    const hexAddress = await publicClient.getEnsAddress({
-      coinType: parseInt(coinType),
-      name,
-    })
-
-    if (hexAddress) {
-      data.coins.push({
-        type: CoinType[parseInt(coinType)],
-        address: hexAddress,
-      })
     }
   }
 

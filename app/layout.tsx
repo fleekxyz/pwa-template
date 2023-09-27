@@ -30,7 +30,7 @@ export default function RootLayout({
       <body className={manrope.className}>
         <Provider>
           <NavBar />
-          <main>{children}</main>
+          {children}
         </Provider>
       </body>
     </html>

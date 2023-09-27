@@ -3,7 +3,7 @@
   margin: 0 auto;
   flex-direction: column;
   gap: 36px;
-  padding-top: 64px;
+  height: 100%;
 }
 
 .header,

@@ -33,37 +33,35 @@ export const Avatar = ({
 
   const ensAvatarUrl = `https://metadata.ens.domains/mainnet/avatar/${ens}`
 
-  return (
+  return isLoadingFailed ? (
+    <div style={{ height: size, width: size }}>
+      <img
+        src={svgURI}
+        height={size}
+        width={size}
+        sizes={sizes}
+        className={styles.avatar}
+        alt="avatar"
+      />
+    </div>
+  ) : (
     <div>
-      {isLoadingFailed ? (
-        <div style={{ height: size, width: size }}>
-          <img
-            src={svgURI}
-            height={size}
-            width={size}
-            sizes={sizes}
-            className={styles.avatar}
-            alt="avatar"
-          />
-        </div>
-      ) : (
-        <Image
-          src={ensAvatarUrl}
-          alt="avatar"
-          className={styles.avatar}
-          sizes={sizes}
-          width={size}
-          height={size}
-          onLoadingComplete={(result) => {
-            if (result.naturalWidth === 0) {
-              setLoadingFailed(true)
-            }
-          }}
-          onError={() => {
+      <Image
+        src={ensAvatarUrl}
+        alt="avatar"
+        className={styles.avatar}
+        sizes={sizes}
+        width={size}
+        height={size}
+        onLoadingComplete={(result) => {
+          if (result.naturalWidth === 0) {
             setLoadingFailed(true)
-          }}
-        />
-      )}
+          }
+        }}
+        onError={() => {
+          setLoadingFailed(true)
+        }}
+      />
     </div>
   )
 }

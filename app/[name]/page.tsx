@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { SOCIAL_ICONS } from '../../lib/constants'
 import Image from 'next/image'
 import styles from './page.module.css'
+import { ExternalLink } from 'react-external-link'
 
 const QUERY = `
 query ($name: String!) {
@@ -17,7 +18,6 @@ query ($name: String!) {
     }
     resolver {
       texts
-      coinTypes
     }
   }
 }
@@ -82,12 +82,12 @@ export default async function ProfilePage({
         {links.map((social) => {
           const { imagePath, baseURL } = SOCIAL_ICONS[social.type]
 
-          if (!social.handle) return null
+          if (!social.text) return null
 
-          return (
+          return baseURL.startsWith('https') ? (
             <Link
               className={styles.link}
-              href={`${baseURL}/${social.handle}`}
+              href={`${baseURL}/${social.text}`}
               key={social.type}
             >
               <Image
@@ -98,13 +98,18 @@ export default async function ProfilePage({
                 className={styles.icon}
               />
             </Link>
+          ) : (
+            <ExternalLink href={`${baseURL}${social.text}`}>
+              <Image
+                src={imagePath}
+                alt={social.type}
+                width={32}
+                height={32}
+                className={styles.icon}
+              />
+            </ExternalLink>
           )
         })}
-      </div>
-      <div>
-        {formattedData.coins.map((coin) => (
-          <Link href={`/${coin.address}`}>{coin.type}</Link>
-        ))}
       </div>
       {formattedData.description ? <p>{formattedData.description}</p> : null}
     </main>

@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@ensdomains/address-encoder':
+    specifier: 1.0.0-rc.2
+    version: 1.0.0-rc.2
   '@privy-io/react-auth':
     specifier: ^1.40.4
     version: 1.40.4(@babel/core@7.23.0)(@types/react@18.2.22)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)
@@ -23,6 +26,9 @@ dependencies:
   react-dom:
     specifier: ^18.2.0
     version: 18.2.0(react@18.2.0)
+  react-external-link:
+    specifier: ^2.2.0
+    version: 2.2.0(react-dom@18.2.0)(react@18.2.0)
   viem:
     specifier: ^1.12.2
     version: 1.12.2(typescript@5.2.2)
@@ -353,6 +359,15 @@ packages:
 
   /@emotion/unitless@0.7.5:
     resolution: {integrity: sha512-OWORNpfjMsSSUBVrRBVGECkhWcULOAJz9ZW8uK9qgxD+87M7jHRcvh/A96XXNhXTLmKcoYSQtBEX7lHMO7YRwg==}
+    dev: false
+
+  /@ensdomains/address-encoder@1.0.0-rc.2:
+    resolution: {integrity: sha512-ePVRVk6o1CaDW0WJkoG7JLDUd+vHfIkM/szQezK1B00MZu/Hnr9fOuf2bf4gu/Aqjy1u2eqn1vsoereGd1jkmg==}
+    dependencies:
+      '@noble/curves': 1.2.0
+      '@noble/hashes': 1.3.2
+      '@scure/base': 1.1.3
+      bech32: 2.0.0
     dev: false
 
   /@ethereumjs/common@3.2.0:
@@ -1888,6 +1903,10 @@ packages:
     resolution: {integrity: sha512-s0IrSOzLlbvX7yp4WBfPITzpAU8sqQcpsmwXDiKwrG4r491vwCO/XpejasRNl0piBMe/DvP4Tz0mIS/X1DPJBQ==}
     dev: false
 
+  /bech32@2.0.0:
+    resolution: {integrity: sha512-LcknSilhIGatDAsY1ak2I8VtGaHNhgMSYVxFrGLXv+xLHytaKZKcaUJJUE7qmBr7h33o5YQwP55pMI0xmkpJwg==}
+    dev: false
+
   /bigint-buffer@1.1.5:
     resolution: {integrity: sha512-trfYco6AoZ+rKhKnxA0hgX0HAbVP/s808/EuDSe2JDzUnCp/xAsli35Orvk67UrTEcwuxZqYZDmfA2RXJgxVvA==}
     engines: {node: '>= 10.0.0'}
@@ -3400,6 +3419,16 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
+    dev: false
+
+  /react-external-link@2.2.0(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-XH7XFvnsF4/ERKBoROOkh1f+YMWK4swXGB7l3OqrTzlABKYuOpD0QybOnDIMoc58vAjtiwRTRKE/UqMRoRD2xQ==}
+    peerDependencies:
+      react: ^17.0 || ^18.0
+      react-dom: ^17.0 || ^18.0
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /react-is@16.13.1:
