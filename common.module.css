@@ -1,0 +1,20 @@
+.center,
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button {
+  background-color: var(--slate-dark-4);
+  border-radius: 12px;
+  color: var(--slate-dark-11);
+  transition: 250ms;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+}
+
+.button:hover {
+  background-color: var(--slate-dark-3);
+}

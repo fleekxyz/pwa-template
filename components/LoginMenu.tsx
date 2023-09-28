@@ -2,14 +2,24 @@
 
 import { usePrivy } from '@privy-io/react-auth'
 import styles from './LoginMenu.module.css'
-import { useAccount, useEnsName } from 'wagmi'
+import common from '../common.module.css'
+import { Address, useAccount, useEnsName } from 'wagmi'
 import Link from 'next/link'
+import { usePrivyWagmi } from '@privy-io/wagmi-connector'
 
 export const LoginMenu = (): JSX.Element => {
   const { login, ready, authenticated } = usePrivy()
 
-  const { address } = useAccount()
-  const { data: ens, isError, isLoading } = useEnsName({ address })
+  const { wallet } = usePrivyWagmi()
+
+  const {
+    data: ens,
+    isError,
+    isLoading,
+  } = useEnsName({
+    address: wallet?.address as Address,
+    enabled: ready && authenticated,
+  })
 
   if (!ready) {
     return <></>
@@ -17,16 +27,21 @@ export const LoginMenu = (): JSX.Element => {
 
   if (authenticated) {
     if (isError)
-      return <p className={styles.link}>Error fetching ENS profile</p>
-    if (isLoading) return <p className={styles.link}>Loading...</p>
+      return (
+        <p className={`${styles.link} ${common.button}`}>
+          Error fetching ENS profile
+        </p>
+      )
+    if (isLoading)
+      return <p className={`${styles.link} ${common.button}`}>Loading...</p>
     if (!ens)
       return (
-        <Link href="/setup" className={styles.link}>
+        <Link href="/setup" className={`${styles.link} ${common.button}`}>
           Setup a new ENS profile
         </Link>
       )
     return (
-      <Link className={styles.link} href={`/${ens}`}>
+      <Link className={`${styles.link} ${common.button}`} href={`/${ens}`}>
         Open my ENS profile
       </Link>
     )
@@ -34,7 +49,7 @@ export const LoginMenu = (): JSX.Element => {
     return (
       <>
         <button
-          className={styles.login}
+          className={`${styles.link} ${common.button}`}
           onClick={() => {
             login()
           }}

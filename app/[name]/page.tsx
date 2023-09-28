@@ -7,7 +7,9 @@ import Link from 'next/link'
 import { SOCIAL_ICONS } from '../../lib/constants'
 import Image from 'next/image'
 import styles from './page.module.css'
+import common from '../../common.module.css'
 import { ExternalLink } from 'react-external-link'
+import { NavBar } from '../../components/NavBar'
 
 const QUERY = `
 query ($name: String!) {
@@ -58,60 +60,65 @@ export default async function ProfilePage({
   const links = formattedData.socials.filter((x) => x.type in SOCIAL_ICONS)
 
   return (
-    <main className={styles.main}>
-      <header className={styles.header}>
-        <Avatar
-          sizes="(max-width: 768px) 224px, (max-width: 1200px) 256px, 320px"
-          address={data.resolvedAddress.id}
-          ens={params.name}
-        />
-        <h1>{data.name}</h1>
-        {formattedData.location ? (
-          <p className={styles.location}>
-            <Image
-              src="/icons/location.svg"
-              height={24}
-              width={24}
-              alt="Location:"
-            />{' '}
-            {formattedData.location}
-          </p>
-        ) : null}
-      </header>
-      <div className={styles.links}>
-        {links.map((social) => {
-          const { imagePath, baseURL } = SOCIAL_ICONS[social.type]
-
-          if (!social.text) return null
-
-          return baseURL.startsWith('https') ? (
-            <Link
-              className={styles.link}
-              href={`${baseURL}/${social.text}`}
-              key={social.type}
-            >
+    <>
+      <NavBar />
+      <main className={`${styles.main} ${common.center}`}>
+        <header className={`${styles.header} ${common.center}`}>
+          <Avatar
+            sizes="(max-width: 768px) 224px, (max-width: 1200px) 256px, 320px"
+            address={data.resolvedAddress.id}
+            ens={params.name}
+          />
+          <h1>{data.name}</h1>
+          {formattedData.location ? (
+            <p className={styles.location}>
               <Image
-                src={imagePath}
-                alt={social.type}
-                width={32}
-                height={32}
-                className={styles.icon}
-              />
-            </Link>
-          ) : (
-            <ExternalLink href={`${baseURL}${social.text}`}>
-              <Image
-                src={imagePath}
-                alt={social.type}
-                width={32}
-                height={32}
-                className={styles.icon}
-              />
-            </ExternalLink>
-          )
-        })}
-      </div>
-      {formattedData.description ? <p>{formattedData.description}</p> : null}
-    </main>
+                src="/icons/location.svg"
+                height={24}
+                width={24}
+                alt="Location:"
+              />{' '}
+              {formattedData.location}
+            </p>
+          ) : null}
+        </header>
+        <div className={`${styles.links} ${common.center}`}>
+          {links.map((social) => {
+            const { imagePath, baseURL } = SOCIAL_ICONS[social.type]
+
+            if (!social.text) return null
+
+            return baseURL.startsWith('https') ? (
+              <Link
+                className={`${styles.link} ${common.button}`}
+                href={`${baseURL}/${social.text}`}
+                key={social.type}
+              >
+                <Image
+                  src={imagePath}
+                  alt={social.type}
+                  width={32}
+                  height={32}
+                />
+              </Link>
+            ) : (
+              <ExternalLink
+                className={`${styles.link} ${common.button}`}
+                key={social.type}
+                href={`${baseURL}${social.text}`}
+              >
+                <Image
+                  src={imagePath}
+                  alt={social.type}
+                  width={32}
+                  height={32}
+                />
+              </ExternalLink>
+            )
+          })}
+        </div>
+        {formattedData.description ? <p>{formattedData.description}</p> : null}
+      </main>
+    </>
   )
 }

@@ -1,8 +1,15 @@
 .nav {
   position: fixed;
-  top: 12px;
-  left: 12px;
+  top: 0;
+  left: 0;
+  padding: 12px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.home {
+  padding: 12px;
 }

@@ -6,15 +6,6 @@
   height: 100%;
 }
 
-.header,
-.main,
-.links,
-.location {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .location {
   gap: 4px;
 }
@@ -29,14 +20,7 @@
   gap: 24px;
 }
 
-.icon {
-  transition: 250ms;
-}
-
-.icon:hover {
-  transform: scale(1.125);
-}
-
 .link {
   text-decoration: none;
+  padding: 12px;
 }

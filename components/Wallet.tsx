@@ -20,18 +20,15 @@ export const Wallet = ({
   setActiveWallet: (w: ConnectedWallet) => Promise<void>
   ens: string
 }) => {
-  const { logout, authenticated, ready } = usePrivy()
+  const { logout, ready, authenticated } = usePrivy()
   const { wallets } = useWallets()
 
   const router = useRouter()
   const windowWidth = useWindowWidth()
   const isMobile = useMemo(() => windowWidth < 800, [windowWidth])
 
-  useEffect(() => {
-    if (ready && !authenticated) router.push('/')
-  }, [authenticated, ready])
-
-  if (!currentWallet) return <></>
+  if (!currentWallet || !(ready && authenticated))
+    return <div style={{ width: 222 }}></div>
 
   return (
     <Dropdown
@@ -65,8 +62,12 @@ export const Wallet = ({
           <button
             className={styles.button}
             onClick={() => {
-              currentWallet.disconnect()
-              logout()
+              try {
+                currentWallet.disconnect()
+                logout()
+              } catch (e) {
+                console.error('Error disconnecting: ', e)
+              }
               router.push('/')
             }}
           >

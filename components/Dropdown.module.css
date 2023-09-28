@@ -1,5 +1,6 @@
 .container {
   position: relative;
+  width: 222px;
 }
 
 .details {
@@ -7,7 +8,7 @@
   padding: 12px 14px;
   border-radius: 12px;
   cursor: pointer;
-  width: 194px;
+  width: max-content;
   position: absolute;
   top: 0;
   left: 0;

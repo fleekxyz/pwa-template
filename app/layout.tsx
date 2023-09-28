@@ -28,10 +28,7 @@ export default function RootLayout({
       <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
       <body className={manrope.className}>
-        <Provider>
-          <NavBar />
-          {children}
-        </Provider>
+        <Provider>{children}</Provider>
       </body>
     </html>
   )

@@ -1,14 +1,7 @@
-.login,
 .link {
-  background-color: var(--slate-dark-4);
   padding: 12px 14px;
-  border-radius: 12px;
-  cursor: pointer;
   width: max-content;
   font-size: var(--fs-small);
-  color: var(--slate-dark-11);
   font-weight: 500;
   font-size: 14px;
-  border: none;
-  text-decoration: none;
 }
