@@ -13,8 +13,14 @@
   cursor: pointer;
   border: none;
   text-decoration: none;
+  padding: 12px;
 }
 
 .button:hover {
   background-color: var(--slate-dark-3);
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
 }

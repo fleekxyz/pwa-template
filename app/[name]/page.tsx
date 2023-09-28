@@ -10,6 +10,7 @@ import styles from './page.module.css'
 import common from '../../common.module.css'
 import { ExternalLink } from 'react-external-link'
 import { NavBar } from '../../components/NavBar'
+import { ShareProfile } from '../../components/ShareProfile'
 
 const QUERY = `
 query ($name: String!) {
@@ -61,7 +62,9 @@ export default async function ProfilePage({
 
   return (
     <>
-      <NavBar />
+      <NavBar>
+        <ShareProfile />
+      </NavBar>
       <main className={`${styles.main} ${common.center}`}>
         <header className={`${styles.header} ${common.center}`}>
           <Avatar

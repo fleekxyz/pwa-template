@@ -1,6 +1,6 @@
 .container {
   position: relative;
-  width: 222px;
+  width: 194px;
 }
 
 .details {
@@ -8,23 +8,21 @@
   padding: 12px 14px;
   border-radius: 12px;
   cursor: pointer;
-  width: max-content;
+  width: 100%;
   position: absolute;
   top: 0;
   left: 0;
 }
 
 @media screen and (max-width: 800px) {
-  .details {
-    width: max-content;
+  .container {
+    width: 148px;
   }
 }
 
 .summary {
   background-image: none;
   appearance: none;
-  display: flex;
-  flex-direction: row;
   justify-content: space-between;
   align-items: center;
   gap: 8px;

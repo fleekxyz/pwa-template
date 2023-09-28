@@ -8,7 +8,6 @@ import { Address, useEnsName } from 'wagmi'
 import { ReactNode } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { usePrivy } from '@privy-io/react-auth'
 
 export const NavBar = ({ children }: { children?: ReactNode }) => {
   const { wallet, setActiveWallet } = usePrivyWagmi()
@@ -17,14 +16,11 @@ export const NavBar = ({ children }: { children?: ReactNode }) => {
   })
 
   return (
-    <nav className={styles.nav}>
+    <nav className={`${common.row} ${styles.nav}`}>
       <Wallet {...{ setActiveWallet, wallet, ens }} />
-      <div>
+      <div className={`${common.row} ${styles.buttonRow}`}>
         {children}
-        <Link
-          href="/"
-          className={`${common.center} ${common.button} ${styles.home}`}
-        >
+        <Link href="/" className={common.button}>
           <Image src="/icons/home.svg" height={32} width={32} alt="Home" />
         </Link>
       </div>

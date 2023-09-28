@@ -1,5 +1,6 @@
 import { ReactNode } from 'react'
 import styles from './Dropdown.module.css'
+import common from '../common.module.css'
 
 export const Dropdown = ({
   children,
@@ -11,7 +12,7 @@ export const Dropdown = ({
   return (
     <div className={styles.container}>
       <details className={styles.details}>
-        <summary className={styles.summary}>
+        <summary className={`${styles.summary} ${common.row}`}>
           {summary}
           <img
             className={styles.chevron}
