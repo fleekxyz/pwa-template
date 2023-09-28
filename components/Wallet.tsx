@@ -20,7 +20,7 @@ export const Wallet = ({
   setActiveWallet: (w: ConnectedWallet) => Promise<void>
   ens: string
 }) => {
-  const { logout, ready, authenticated } = usePrivy()
+  const { logout, ready, authenticated, linkWallet } = usePrivy()
   const { wallets } = useWallets()
 
   const router = useRouter()
@@ -59,6 +59,11 @@ export const Wallet = ({
                 </button>
               </li>
             ))}
+          <li>
+            <button className={styles.button} onClick={linkWallet}>
+              Link another wallet
+            </button>
+          </li>
           <button
             className={styles.button}
             onClick={() => {
