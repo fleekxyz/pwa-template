@@ -1,0 +1,23 @@
+.container {
+  padding: 16px;
+  border: 2px dashed var(--slate-dark-11);
+  border-radius: 999px;
+  width: 250px;
+  height: 250px;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  font-size: 128px;
+  font-weight: bold;
+  color: var(--slate-dark-11);
+}
+
+.image {
+  border-radius: 999px;
+  object-fit: cover;
+  position: absolute;
+}
+
+.buttonMenu {
+  gap: 12px;
+}

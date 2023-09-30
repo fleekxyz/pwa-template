@@ -8,6 +8,7 @@ import styles from './page.module.css'
 import common from '../../common.module.css'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
+import { AvatarUpload } from '../../components/setup/AvatarUpload'
 
 const OnboardingProcess = ({ step }: { step: SetupStep }) => {
   switch (step) {
@@ -15,7 +16,7 @@ const OnboardingProcess = ({ step }: { step: SetupStep }) => {
     default:
       return <NameSearch />
     case 'avatar':
-      return <h1>aaa</h1>
+      return <AvatarUpload />
   }
 }
 
