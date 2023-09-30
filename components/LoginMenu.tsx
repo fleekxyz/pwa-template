@@ -7,6 +7,12 @@ import { Address, useAccount, useEnsName } from 'wagmi'
 import Link from 'next/link'
 import { usePrivyWagmi } from '@privy-io/wagmi-connector'
 
+const SetupLink = () => (
+  <Link href="/setup" className={`${styles.link} ${common.button}`}>
+    Set up an ENS profile
+  </Link>
+)
+
 export const LoginMenu = (): JSX.Element => {
   const { login, ready, authenticated } = usePrivy()
 
@@ -34,16 +40,14 @@ export const LoginMenu = (): JSX.Element => {
       )
     if (isLoading)
       return <p className={`${styles.link} ${common.button}`}>Loading...</p>
-    if (!ens)
-      return (
-        <Link href="/setup" className={`${styles.link} ${common.button}`}>
-          Setup a new ENS profile
-        </Link>
-      )
+    if (!ens) return <SetupLink />
     return (
-      <Link className={`${styles.link} ${common.button}`} href={`/${ens}`}>
-        Open my ENS profile
-      </Link>
+      <>
+        <Link className={`${styles.link} ${common.button}`} href={`/${ens}`}>
+          Open my ENS profile
+        </Link>
+        <SetupLink />
+      </>
     )
   } else {
     return (

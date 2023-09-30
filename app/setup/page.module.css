@@ -1,0 +1,48 @@
+.main {
+  max-width: 800px;
+  margin: 0 auto;
+  flex-direction: column;
+  gap: 36px;
+  height: 100%;
+}
+
+.name {
+  font-size: 36px;
+  border-radius: 20px;
+  border: 1.5px solid var(--slate-dark-4);
+  padding: 8px;
+  padding-right: 12px;
+}
+
+.nameInput {
+  font-size: 32px;
+  background: transparent;
+  min-width: 5ch;
+  max-width: 20ch;
+  margin-right: 8px;
+}
+
+.status {
+  font-size: 18px;
+}
+
+.status[data-status='available'] {
+  color: green;
+}
+
+.status[data-status='taken'] {
+  color: red;
+}
+
+.status[data-status='disabled'] {
+  color: gray;
+}
+
+.searchBar {
+  gap: 16px;
+}
+
+.searchButton {
+  font-size: 24px;
+  padding: 12px 24px !important;
+}

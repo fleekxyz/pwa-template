@@ -6,14 +6,26 @@
 }
 
 .button {
+  transition: 250ms;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.button,
+.input {
   background-color: var(--slate-dark-4);
   border-radius: 12px;
   color: var(--slate-dark-11);
-  transition: 250ms;
-  cursor: pointer;
-  border: none;
-  text-decoration: none;
   padding: 12px;
+  border: none;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+}
+
+.button:disabled:hover {
+  background-color: var(--slate-dark-4);
 }
 
 .button:hover {

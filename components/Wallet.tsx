@@ -10,6 +10,7 @@ import { useWindowWidth } from '../lib/useWindowWidth'
 import { Avatar } from './Avatar'
 import { useRouter } from 'next/navigation'
 import { Dropdown } from './Dropdown'
+import { LoadingIcon } from './LoadingIcon'
 
 export const Wallet = ({
   wallet: currentWallet,
@@ -36,9 +37,11 @@ export const Wallet = ({
         <>
           <Avatar address={currentWallet.address} ens={ens} />
           <span className={styles.address}>
-            {currentWallet.isConnected
-              ? ens || formatAddress(currentWallet.address, isMobile ? 2 : 4)
-              : 'Loading...'}
+            {currentWallet.isConnected ? (
+              ens || formatAddress(currentWallet.address, isMobile ? 2 : 4)
+            ) : (
+              <LoadingIcon />
+            )}
           </span>
         </>
       }

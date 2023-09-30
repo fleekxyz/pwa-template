@@ -1,14 +1,18 @@
 import { Provider } from '../components/Provider'
 import { Manrope } from 'next/font/google'
+
 import '../global.css'
-import { NavBar } from '../components/NavBar'
 
 export const metadata = {
   title: 'Fleek PWA Template',
   description: 'Fleek PWA Template',
 }
 
-const manrope = Manrope({ subsets: ['latin'] })
+const manrope = Manrope({
+  subsets: ['latin'],
+  display: 'swap',
+  adjustFontFallback: false,
+})
 
 export default function RootLayout({
   children,
