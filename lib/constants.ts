@@ -1,4 +1,3 @@
-import { CoinName } from '@ensdomains/address-encoder'
 import { LinkType } from './types'
 
 export const SOCIAL_ICONS: Record<

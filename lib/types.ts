@@ -25,3 +25,5 @@ export type FormattedEnsData = {
   avatar: string
   location: string
 }>
+
+export type SetupStep = 'name' | 'avatar' | 'social' | 'register'
