@@ -53,6 +53,9 @@ export const AvatarUpload = () => {
             src={image.preview}
             alt="Avatar"
             onLoad={() => localStorage.setItem('avatar', image.preview)}
+            onError={() => {
+              setImage(null)
+            }}
           />
         ) : null}
       </div>

@@ -12,7 +12,9 @@ export const Dropdown = ({
   return (
     <div className={styles.container}>
       <details className={styles.details}>
-        <summary className={`${styles.summary} ${common.row}`}>
+        <summary
+          className={`${styles.summary} ${common.row} ${common.summary}`}
+        >
           {summary}
           <img
             className={styles.chevron}

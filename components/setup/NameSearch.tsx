@@ -1,7 +1,7 @@
 import { usePrivy } from '@privy-io/react-auth'
 import { Fragment_Mono } from 'next/font/google'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDebounce } from 'use-debounce'
 import { labelhash } from 'viem'
 import { useContractRead } from 'wagmi'
@@ -39,6 +39,12 @@ export const NameSearch = () => {
 
   const [name, setName] = useState<string>('')
 
+  useEffect(() => {
+    const cachedName = localStorage.getItem('name')
+
+    if (cachedName) setName(cachedName)
+  }, [])
+
   const [debouncedName] = useDebounce(name, 500)
 
   const enabled = ready && authenticated && !!debouncedName
@@ -68,11 +74,12 @@ export const NameSearch = () => {
         <button
           disabled={!enabled || isLoading || !isAvailable}
           className={`${common.button} ${styles.searchButton}`}
-          onClick={() =>
+          onClick={() => {
+            localStorage.setItem('name', name)
             router.push(
               `/setup?${createQueryString<SetupStep>('step', 'avatar')}`,
             )
-          }
+          }}
         >
           Register
         </button>

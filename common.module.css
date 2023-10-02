@@ -1,6 +1,5 @@
 .center,
 .button {
-  display: flex;
   justify-content: center;
   align-items: center;
 }
@@ -33,6 +32,23 @@
 }
 
 .row {
-  display: flex;
   flex-direction: row;
+  align-items: center;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.row,
+.column,
+.center,
+.button {
+  display: flex;
+}
+
+.summary {
+  user-select: none;
+  list-style: none;
+  cursor: pointer;
 }
