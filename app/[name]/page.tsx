@@ -58,7 +58,7 @@ export default async function ProfilePage({
 
   const formattedData = await formatEnsData(data)
 
-  const links = formattedData.socials.filter((x) => x.type in SOCIAL_ICONS)
+  const links = formattedData.texts.filter((x) => x.type in SOCIAL_ICONS)
 
   return (
     <>

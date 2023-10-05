@@ -18,7 +18,7 @@ export type LinkType =
   | 'url'
 
 export type FormattedEnsData = {
-  socials: { type: LinkType; text: string }[]
+  texts: { type: LinkType; text: string }[]
   coins: { type: string; address: string }[]
 } & Partial<{
   description: string
