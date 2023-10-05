@@ -6,7 +6,18 @@ export const TextRecordsInput = () => {
   return (
     <>
       <div className={styles.placeholder} />
-      <form className={`${styles.form} ${common.column}`}>
+      <form
+        className={`${styles.form} ${common.column}`}
+        onSubmit={(e) => {
+          e.preventDefault()
+          const fd = new FormData(e.currentTarget)
+          const entries = Object.fromEntries(fd.entries())
+
+          if (e.currentTarget.reportValidity()) {
+            return localStorage.setItem('text-records', JSON.stringify(entries))
+          }
+        }}
+      >
         <FormField
           type="text"
           label="Bio"
@@ -20,6 +31,7 @@ export const TextRecordsInput = () => {
           label="Email"
           placeholder="me@example.com"
           defaultOpen
+          autoComplete="on"
         />
         <FormField
           type="url"
