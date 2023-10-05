@@ -8,8 +8,18 @@
   font-weight: 700;
   font-size: 24px;
   pointer-events: none;
+  width: 100%;
+  justify-content: space-between;
 }
 
 .inputRow {
   margin-top: 8px;
+}
+.chevron {
+  transition: 300ms;
+  margin-left: 12px;
+}
+
+.details[open] .chevron {
+  transform: rotate(180deg);
 }

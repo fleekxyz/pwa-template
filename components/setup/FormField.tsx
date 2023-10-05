@@ -15,12 +15,17 @@ export const FormField = ({
 } & InputHTMLAttributes<HTMLInputElement>) => {
   return (
     <details
-      className={`${styles.container} ${common.column}`}
+      className={`${styles.details} ${common.column}`}
       open={defaultOpen}
     >
       <summary className={common.summary}>
-        <label htmlFor={props.name} className={styles.label}>
+        <label htmlFor={props.name} className={`${common.row} ${styles.label}`}>
           {label}
+          <img
+            className={styles.chevron}
+            src="/chevron-down.svg"
+            alt="chevron-down"
+          />
         </label>
       </summary>
       <span className={`${common.row} ${styles.inputRow}`}>

@@ -34,6 +34,7 @@
 .details[open] .chevron {
   transform: rotate(180deg);
 }
+
 .details button {
   border: none;
   background-color: var(--slate-dark-1);
