@@ -3,4 +3,5 @@
   margin: 0 auto;
   flex-direction: column;
   gap: 36px;
+  height: 100%;
 }

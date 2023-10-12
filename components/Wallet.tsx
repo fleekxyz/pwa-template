@@ -1,55 +1,61 @@
 'use client'
 
 import styles from './Wallet.module.css'
-import { useEnsAvatar } from 'wagmi'
+import common from '../common.module.css'
 
-import { useEffect, useMemo } from 'react'
-import { ConnectedWallet, usePrivy, useWallets } from '@privy-io/react-auth'
+import { useMemo } from 'react'
+import { usePrivy, useWallets } from '@privy-io/react-auth'
 import { formatAddress } from '../lib/formatAddress'
 import { useWindowWidth } from '../lib/useWindowWidth'
 import { Avatar } from './Avatar'
 import { useRouter } from 'next/navigation'
 import { Dropdown } from './Dropdown'
 import { LoadingIcon } from './LoadingIcon'
+import { Address, useAccount, useDisconnect, useEnsName } from 'wagmi'
+import { usePrivyWagmi } from '@privy-io/wagmi-connector'
 
-export const Wallet = ({
-  wallet: currentWallet,
-  setActiveWallet,
-  ens,
-}: {
-  wallet: ConnectedWallet
-  setActiveWallet: (w: ConnectedWallet) => Promise<void>
-  ens: string
-}) => {
-  const { logout, ready, authenticated, linkWallet } = usePrivy()
+export const Wallet = () => {
+  const { logout, ready, authenticated, linkWallet, login } = usePrivy()
   const { wallets } = useWallets()
 
   const router = useRouter()
   const windowWidth = useWindowWidth()
   const isMobile = useMemo(() => windowWidth < 800, [windowWidth])
 
-  if (!currentWallet || !(ready && authenticated))
-    return <div style={{ width: 222 }}></div>
+  const { setActiveWallet, wallet } = usePrivyWagmi()
+
+  const { address } = useAccount()
+  const { disconnect } = useDisconnect()
+
+  const { data: ens } = useEnsName({
+    address: address || (wallet?.address as Address),
+  })
+
+  if (ready && !authenticated)
+    return (
+      <button className={`${common.button} ${styles.connect}`} onClick={login}>
+        Connect
+      </button>
+    )
 
   return (
     <Dropdown
       summary={
         <>
-          <Avatar address={currentWallet.address} ens={ens} />
+          <Avatar address={address} ens={ens} />
           <span className={styles.address}>
-            {currentWallet.isConnected ? (
-              ens || formatAddress(currentWallet.address, isMobile ? 2 : 4)
-            ) : (
-              <LoadingIcon />
-            )}
+            {ens ||
+              (address || wallet?.address
+                ? formatAddress(address || wallet?.address, isMobile ? 2 : 4)
+                : null)}
           </span>
         </>
       }
     >
-      {currentWallet ? (
+      {wallet?.isConnected ? (
         <ul className={styles.walletList}>
           {wallets
-            .filter((w) => w.address !== currentWallet.address)
+            .filter((w) => w.address !== address)
             .map((wallet) => (
               <li key={wallet.address}>
                 <button
@@ -71,7 +77,7 @@ export const Wallet = ({
             className={styles.button}
             onClick={() => {
               try {
-                currentWallet.disconnect()
+                disconnect()
                 logout()
               } catch (e) {
                 console.error('Error disconnecting: ', e)
