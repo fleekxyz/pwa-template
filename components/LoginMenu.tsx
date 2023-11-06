@@ -1,6 +1,6 @@
 'use client'
 
-import { usePrivy } from '@privy-io/react-auth'
+import { usePrivy, useWallets } from '@privy-io/react-auth'
 import styles from './LoginMenu.module.css'
 import common from '../common.module.css'
 import { Address, useAccount, useEnsName } from 'wagmi'

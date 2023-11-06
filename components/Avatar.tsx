@@ -29,7 +29,7 @@ export const Avatar = ({
 
   useEffect(() => {
     setLoadingFailed(false)
-  }, [ens, address])
+  }, [address])
 
   const ensAvatarUrl = `https://metadata.ens.domains/mainnet/avatar/${ens}`
 
@@ -45,7 +45,7 @@ export const Avatar = ({
       />
     </div>
   ) : (
-    <div>
+    <div style={{ height: size, width: size }}>
       <Image
         src={ensAvatarUrl}
         alt="avatar"

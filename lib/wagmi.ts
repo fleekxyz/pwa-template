@@ -1,8 +1,8 @@
-import { mainnet, goerli } from 'wagmi/chains'
 import { configureChains } from 'wagmi'
 import { publicProvider } from 'wagmi/providers/public'
+import { mainnetWithEns } from './ens'
 
 export const configureChainsConfig = configureChains(
-  [mainnet, goerli],
+  [mainnetWithEns],
   [publicProvider()],
 )

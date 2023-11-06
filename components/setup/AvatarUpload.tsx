@@ -9,7 +9,7 @@ import { createQueryString } from '../../lib/createQueryString'
 import { SetupStep } from '../../lib/types'
 
 export const AvatarUpload = () => {
-  const [image, setImage] = useState<File & { preview: string }>(null)
+  const [image, setImage] = useState<(File & { preview: string }) | null>(null)
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop: ([file]) => {
@@ -25,7 +25,7 @@ export const AvatarUpload = () => {
   })
 
   useEffect(() => {
-    const imageCached = localStorage.getItem('avatar')
+    const imageCached = sessionStorage.getItem('avatar')
 
     if (imageCached) {
       setImage(
@@ -52,7 +52,7 @@ export const AvatarUpload = () => {
             className={styles.image}
             src={image.preview}
             alt="Avatar"
-            onLoad={() => localStorage.setItem('avatar', image.preview)}
+            onLoad={() => sessionStorage.setItem('avatar', image.preview)}
             onError={() => {
               setImage(null)
             }}
@@ -74,7 +74,7 @@ export const AvatarUpload = () => {
           <button
             className={common.button}
             onClick={() => {
-              localStorage.removeItem('avatar')
+              sessionStorage.removeItem('avatar')
               URL.revokeObjectURL(image.preview)
               setImage(null)
             }}

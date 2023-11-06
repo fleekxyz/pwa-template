@@ -4,7 +4,9 @@ import common from '../../common.module.css'
 import styles from './TextRecordsInput.module.css'
 import { FormField } from './FormField'
 import { useEffect, useState } from 'react'
-import { LinkType } from '../../lib/types'
+import { LinkType, SetupStep } from '../../lib/types'
+import { useRouter } from 'next/navigation'
+import { createQueryString } from '../../lib/createQueryString'
 
 export const TextRecordsInput = () => {
   const [textRecords, setTextRecords] = useState<Record<
@@ -12,8 +14,10 @@ export const TextRecordsInput = () => {
     string
   > | null>(null)
 
+  const router = useRouter()
+
   useEffect(() => {
-    const records = localStorage.getItem('text-records')
+    const records = sessionStorage.getItem('text-records')
 
     if (records) {
       try {
@@ -33,7 +37,11 @@ export const TextRecordsInput = () => {
           const entries = Object.fromEntries(fd.entries())
 
           if (e.currentTarget.reportValidity()) {
-            return localStorage.setItem('text-records', JSON.stringify(entries))
+            sessionStorage.setItem('text-records', JSON.stringify(entries))
+
+            router.push(
+              `/setup?${createQueryString<SetupStep>('step', 'register')}`,
+            )
           }
         }}
       >

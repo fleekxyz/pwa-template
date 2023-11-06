@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { AvatarUpload } from '../../components/setup/AvatarUpload'
 import { TextRecordsInput } from '../../components/setup/TextRecordsInput'
+import { TransactionSubmit } from '../../components/setup/TransactionSubmit'
 
 const OnboardingProcess = ({ step }: { step: SetupStep }) => {
   switch (step) {
@@ -21,7 +22,7 @@ const OnboardingProcess = ({ step }: { step: SetupStep }) => {
     case 'social':
       return <TextRecordsInput />
     case 'register':
-      return <h1>Register</h1>
+      return <TransactionSubmit />
   }
 }
 

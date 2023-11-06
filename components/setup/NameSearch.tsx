@@ -3,14 +3,13 @@ import { Fragment_Mono } from 'next/font/google'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useDebounce } from 'use-debounce'
-import { labelhash } from 'viem'
-import { useContractRead } from 'wagmi'
 import { createQueryString } from '../../lib/createQueryString'
 import { SetupStep } from '../../lib/types'
 import { LoadingIcon } from '../LoadingIcon'
 
 import common from '../../common.module.css'
 import styles from './NameSearch.module.css'
+import { ensClient } from '../../lib/ens'
 
 const fragmentMono = Fragment_Mono({
   subsets: ['latin'],
@@ -19,28 +18,13 @@ const fragmentMono = Fragment_Mono({
   adjustFontFallback: false,
 })
 
-const ensRegistrarContract = {
-  abi: [
-    {
-      constant: true,
-      inputs: [{ internalType: 'uint256', name: 'id', type: 'uint256' }],
-      name: 'available',
-      outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
-      payable: false,
-      stateMutability: 'view',
-      type: 'function',
-    },
-  ],
-  address: '0x57f1887a8bf19b14fc0df6fd9b2acc9af147ea85',
-} as const
-
 export const NameSearch = () => {
   const { ready, authenticated } = usePrivy()
 
   const [name, setName] = useState<string>('')
 
   useEffect(() => {
-    const cachedName = localStorage.getItem('name')
+    const cachedName = sessionStorage.getItem('name')
 
     if (cachedName) setName(cachedName)
   }, [])
@@ -51,12 +35,14 @@ export const NameSearch = () => {
 
   const router = useRouter()
 
-  const { data: isAvailable, isLoading } = useContractRead({
-    ...ensRegistrarContract,
-    functionName: 'available',
-    args: [BigInt(labelhash(debouncedName))],
-    enabled,
-  })
+  const [isAvailable, setAvailable] = useState<boolean | null>(null)
+
+  useEffect(() => {
+    setAvailable(null)
+    ensClient
+      .getAvailable({ name: `${name}.eth` })
+      .then((available) => setAvailable(available))
+  }, [name])
 
   return (
     <>
@@ -67,15 +53,23 @@ export const NameSearch = () => {
             className={`${common.input} ${fragmentMono.className} ${styles.nameInput}`}
             value={name}
             style={{ width: `${name.length || 5}ch` }}
-            onChange={(e) => setName(e.currentTarget.value)}
+            onChange={(e) => {
+              const value = e.currentTarget.value
+
+              if (value === '') {
+                sessionStorage.removeItem('json-records')
+              }
+
+              setName(value)
+            }}
           />
           .eth
         </span>
         <button
-          disabled={!enabled || isLoading || !isAvailable}
+          disabled={!enabled || !isAvailable}
           className={`${common.button} ${styles.searchButton}`}
           onClick={() => {
-            localStorage.setItem('name', name)
+            sessionStorage.setItem('name', name)
             router.push(
               `/setup?${createQueryString<SetupStep>('step', 'avatar')}`,
             )
@@ -91,7 +85,7 @@ export const NameSearch = () => {
         }
       >
         {enabled ? (
-          isLoading ? (
+          isAvailable === null ? (
             <LoadingIcon />
           ) : isAvailable ? (
             <>Available</>

@@ -23,3 +23,11 @@
   font-size: 16px;
   font-weight: 600;
 }
+
+.placeholder {
+  background-color: var(--slate-dark-4);
+  padding: 12px 14px;
+  border-radius: 12px;
+  width: 194px;
+  height: 32px;
+}
