@@ -3,18 +3,19 @@
 import { useRouter } from 'next/navigation'
 import { useEffect, useMemo, useState } from 'react'
 import { ensClient, ethEnsRegistrar } from '../../lib/ens'
-import { formatEther } from 'viem'
+import { BaseError, UserRejectedRequestError, formatEther } from 'viem'
 import {
   useAccount,
   useFeeData,
   useContractWrite,
   usePrepareContractWrite,
   usePublicClient,
-  useWalletClient,
 } from 'wagmi'
 import { makeCommitment, randomSecret } from '@ensdomains/ensjs/utils'
-import styles from '../../common.module.css'
 import { LoadingIcon } from '../LoadingIcon'
+
+import common from '../../common.module.css'
+import styles from './TransactionSubmit.module.css'
 
 const ONE_YEAR = 365 * 24 * 60 * 60
 
@@ -36,16 +37,18 @@ export const TransactionSubmit = () => {
   const [ethPrice, setEthPrice] = useState(0)
 
   useEffect(() => {
+   if (name) {
     ensClient
-      .getPrice({ nameOrNames: `${name}.eth`, duration: ONE_YEAR })
-      .then(({ base }) => {
-        setPrice(base)
-        fetch('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD')
-          .then((res) => res.json())
-          .then((data) => {
-            setEthPrice(data.USD)
-          })
-      })
+    .getPrice({ nameOrNames: `${name}.eth`, duration: ONE_YEAR })
+    .then(({ base }) => {
+      setPrice(base)
+      fetch('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD')
+        .then((res) => res.json())
+        .then((data) => {
+          setEthPrice(data.USD)
+        })
+    })
+   }
   }, [name])
 
   const secret = useMemo(() => {
@@ -70,7 +73,7 @@ export const TransactionSubmit = () => {
   })
 
   const [contractGas, setContractGas] = useState(0n)
-  const { data } = useFeeData()
+  const { data,isLoading: isFeeDataLoading } = useFeeData()
 
   const client = usePublicClient()
 
@@ -88,24 +91,25 @@ export const TransactionSubmit = () => {
 
   const { write, isLoading, error } = useContractWrite(config)
 
+  const gasCostInEth = useMemo<bigint>(() => isFeeDataLoading ? 0n: (data?.maxFeePerGas! + data?.maxPriorityFeePerGas!) * contractGas, [isFeeDataLoading, contractGas])
+
   return (
     <>
       <h1>Checkout</h1>
-      <p>Your ENS profile is ready to purchase</p>
+      <p>Your ENS profile is ready to purchase.</p>
       <h2>{name}.eth</h2>
-      <p>
-        Price: ${(parseFloat(formatEther(price)) * ethPrice).toPrecision(3)}
-      </p>
-      {/* <p>Gas cost: ${(parseFloat(formatEther((data?.maxFeePerGas! + data?.maxPriorityFeePerGas!) * contractGas)) * ethPrice).toPrecision(3)}</p> */}
-      {error && <p className={styles.error}>{error.message}</p>}
+      <div>
+       <span className={styles.price}>${(parseFloat(formatEther(price)) * ethPrice).toPrecision(3)}</span> + ${(parseFloat(formatEther(gasCostInEth)) * ethPrice).toPrecision(3)} fees
+      </div>
+      {error ? <p className={common.error}>{(error as BaseError).details}</p> : null}
       <button
-        className={styles.button}
+        className={common.button}
         disabled={!write || isLoading}
         onClick={() => {
           write?.()
         }}
       >
-        {isLoading ? <LoadingIcon /> : 'Commit name'}
+        {isLoading ? <LoadingIcon /> : 'Commit'}
       </button>
     </>
   )

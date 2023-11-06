@@ -1,8 +1,12 @@
 import { configureChains } from 'wagmi'
-import { publicProvider } from 'wagmi/providers/public'
+import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 import { mainnetWithEns } from './ens'
 
 export const configureChainsConfig = configureChains(
   [mainnetWithEns],
-  [publicProvider()],
+  [jsonRpcProvider({
+    rpc: () => ({
+      http: `https://rpc.ankr.com/eth`,
+    }),
+  })],
 )
