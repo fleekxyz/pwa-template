@@ -16,6 +16,7 @@ import { LoadingIcon } from '../LoadingIcon'
 
 import common from '../../common.module.css'
 import styles from './TransactionSubmit.module.css'
+import { goerli } from 'viem/chains'
 
 const ONE_YEAR = 365 * 24 * 60 * 60
 
@@ -58,7 +59,7 @@ export const TransactionSubmit = () => {
   }, [name])
 
   const commitmentHash = useMemo(() => {
-    if (name && isConnected)
+    if (name && isConnected && secret)
       return makeCommitment({
         name: `${name}.eth`,
         owner: address!,
@@ -72,6 +73,7 @@ export const TransactionSubmit = () => {
     ...ethEnsRegistrar,
     functionName: 'commit',
     args: [commitmentHash],
+    enabled: commitmentHash !== '0x',
   })
 
   const [contractGas, setContractGas] = useState(0n)

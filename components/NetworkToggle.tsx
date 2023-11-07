@@ -1,11 +1,12 @@
 'use client'
 
-import { useAccount, useNetwork, useSwitchNetwork } from 'wagmi'
+import { useAccount, useNetwork,  } from 'wagmi'
 import { Dropdown } from './Dropdown'
 
 import styles from './NetworkToggle.module.css'
 import { useState, useEffect } from 'react'
 import { usePrivy } from '@privy-io/react-auth'
+import { useSwitchNetwork } from '@privy-io/wagmi-connector'
 
 export const NetworkToggle = () => {
   const [mounted, setMounted] = useState(false)
@@ -13,11 +14,8 @@ export const NetworkToggle = () => {
   useEffect(() => setMounted(true), [])
   const { chain } = useNetwork()
   const { isLoading, pendingChainId, switchNetwork, reset, chains } =
-    useSwitchNetwork({
-      onSettled: () => {
-        reset()
-      },
-    })
+    useSwitchNetwork({})
+
 
   return mounted && ready && authenticated && chain ? (
     <Dropdown className={styles.dropdown} summary={chain.name}>

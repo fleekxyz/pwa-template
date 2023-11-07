@@ -31,12 +31,12 @@
 
 .searchBar {
   gap: 16px;
+  align-items: stretch;
 }
 
 .searchButton {
   font-size: 24px;
   padding: 12px 24px !important;
-  height: 100%;
 }
 
 .name,
