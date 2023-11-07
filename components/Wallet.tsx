@@ -3,7 +3,7 @@
 import styles from './Wallet.module.css'
 import common from '../common.module.css'
 
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { WalletWithMetadata, usePrivy, useWallets } from '@privy-io/react-auth'
 import { formatAddress } from '../lib/formatAddress'
 import { useWindowWidth } from '../lib/useWindowWidth'
@@ -13,6 +13,7 @@ import { Dropdown } from './Dropdown'
 import { Address, useAccount, useDisconnect, useEnsName } from 'wagmi'
 import { usePrivyWagmi } from '@privy-io/wagmi-connector'
 import { zeroAddress } from 'viem'
+import { useConnected } from '../lib/useConnected'
 
 export const Wallet = () => {
   const {
@@ -23,7 +24,6 @@ export const Wallet = () => {
     login,
     user,
     connectWallet,
-    unlinkWallet,
   } = usePrivy()
 
   const { setActiveWallet, wallet: currentWallet } = usePrivyWagmi()
@@ -36,6 +36,8 @@ export const Wallet = () => {
     address: currentWallet?.address as Address,
   })
 
+  const isConnected = useConnected(currentWallet)
+
   const wallets = (user?.linkedAccounts.filter((a) => a.type === 'wallet') ||
     []) as WalletWithMetadata[]
 
@@ -45,7 +47,8 @@ export const Wallet = () => {
 
   if (!ready && !authenticated) return <div className={styles.placeholder} />
 
-  if ((ready && !authenticated) || !currentWallet) {
+
+  if ((ready && !authenticated) || !currentWallet || !isConnected) {
     return (
       <button
         className={`${common.button} ${styles.connect}`}
@@ -61,6 +64,7 @@ export const Wallet = () => {
 
   return (
     <Dropdown
+      className={styles.dropdown}
       summary={
         <>
           <Avatar address={currentWallet.address || zeroAddress} ens={ens!} />
@@ -73,7 +77,7 @@ export const Wallet = () => {
         </>
       }
     >
-      <ul className={styles.walletList}>
+      <ul>
         {wallets
           .filter((w) => w.address !== currentWallet?.address)
           .map((wallet) => (

@@ -9,11 +9,11 @@ dependencies:
     specifier: 3.0.0-beta.9
     version: 3.0.0-beta.9(typescript@5.2.2)(viem@1.18.1)
   '@privy-io/react-auth':
-    specifier: ^1.45.2
-    version: 1.45.2(@babel/core@7.23.2)(@types/react@18.2.33)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)
+    specifier: ^1.46.1
+    version: 1.46.1(@babel/core@7.23.2)(@types/react@18.2.33)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)
   '@privy-io/wagmi-connector':
     specifier: ^0.1.5
-    version: 0.1.5(@privy-io/react-auth@1.45.2)(react-dom@18.2.0)(react@18.2.0)(viem@1.18.1)(wagmi@1.4.5)
+    version: 0.1.5(@privy-io/react-auth@1.46.1)(react-dom@18.2.0)(react@18.2.0)(viem@1.18.1)(wagmi@1.4.5)
   minidenticons:
     specifier: ^4.2.0
     version: 4.2.0
@@ -302,7 +302,7 @@ packages:
     engines: {node: '>= 10.0.0'}
     dependencies:
       '@metamask/safe-event-emitter': 2.0.0
-      '@solana/web3.js': 1.87.3(encoding@0.1.13)
+      '@solana/web3.js': 1.87.3
       bind-decorator: 1.0.11
       bn.js: 5.2.1
       buffer: 6.0.3
@@ -330,7 +330,7 @@ packages:
     engines: {node: '>= 10.0.0'}
     dependencies:
       '@metamask/safe-event-emitter': 2.0.0
-      '@solana/web3.js': 1.87.3(encoding@0.1.13)
+      '@solana/web3.js': 1.87.4(encoding@0.1.13)
       bind-decorator: 1.0.11
       bn.js: 5.2.1
       buffer: 6.0.3
@@ -340,7 +340,7 @@ packages:
       eth-rpc-errors: 4.0.2
       json-rpc-engine: 6.1.0
       keccak: 3.0.4
-      preact: 10.18.1
+      preact: 10.18.2
       qs: 6.11.2
       rxjs: 6.6.7
       sha.js: 2.4.11
@@ -946,8 +946,8 @@ packages:
     engines: {node: '>= 16'}
     dev: false
 
-  /@privy-io/react-auth@1.45.2(@babel/core@7.23.2)(@types/react@18.2.33)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-FB1+4VkSBOpsHLexHGJJphcN/1eCPzgn8ceyAQAPF6ZG1Joiqi4QtIUA3MZ5W6IxkFGemviVT8mCHf+0fBVHQA==}
+  /@privy-io/react-auth@1.46.1(@babel/core@7.23.2)(@types/react@18.2.33)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-Qaz54WR/JJyp0bOO7RVd/Ee/11V+bknw0eJiKW+9ppFrHPs6WyandAsh0XiW/0dtnIvvHse1rLJif5wc+3XKpw==}
     peerDependencies:
       react: ^18
       react-dom: ^18
@@ -1001,7 +1001,7 @@ packages:
       - utf-8-validate
     dev: false
 
-  /@privy-io/wagmi-connector@0.1.5(@privy-io/react-auth@1.45.2)(react-dom@18.2.0)(react@18.2.0)(viem@1.18.1)(wagmi@1.4.5):
+  /@privy-io/wagmi-connector@0.1.5(@privy-io/react-auth@1.46.1)(react-dom@18.2.0)(react@18.2.0)(viem@1.18.1)(wagmi@1.4.5):
     resolution: {integrity: sha512-EJ4V6Wk5XmNMSTWaahnU9r481oN5rODMk4/NCCZq2IXWss2EEBI1s71EBnN7cn7U+FAijA2QYeyVGnHUJmJI4A==}
     peerDependencies:
       '@privy-io/react-auth': ^1.33.0
@@ -1010,7 +1010,7 @@ packages:
       viem: '>=0.3.35'
       wagmi: '>=1 <2'
     dependencies:
-      '@privy-io/react-auth': 1.45.2(@babel/core@7.23.2)(@types/react@18.2.33)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)
+      '@privy-io/react-auth': 1.46.1(@babel/core@7.23.2)(@types/react@18.2.33)(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       viem: 1.18.1(typescript@5.2.2)
@@ -1092,8 +1092,32 @@ packages:
       buffer: 6.0.3
     dev: false
 
-  /@solana/web3.js@1.87.3(encoding@0.1.13):
+  /@solana/web3.js@1.87.3:
     resolution: {integrity: sha512-WGLzTZpi00vP443qGK3gL+LZXQJwaWkh6bzNXYpMTCAH2Z102y3YbPWOoQzJUeRSZWSXKh7MFkA3vDMFlMvGZQ==}
+    dependencies:
+      '@babel/runtime': 7.23.2
+      '@noble/curves': 1.2.0
+      '@noble/hashes': 1.3.2
+      '@solana/buffer-layout': 4.0.1
+      agentkeepalive: 4.5.0
+      bigint-buffer: 1.1.5
+      bn.js: 5.2.1
+      borsh: 0.7.0
+      bs58: 4.0.1
+      buffer: 6.0.3
+      fast-stable-stringify: 1.0.0
+      jayson: 4.1.0
+      node-fetch: 2.7.0(encoding@0.1.13)
+      rpc-websockets: 7.6.2
+      superstruct: 0.14.2
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - utf-8-validate
+    dev: false
+
+  /@solana/web3.js@1.87.4(encoding@0.1.13):
+    resolution: {integrity: sha512-YlC8kjY0LRmqR0cy5cjRI4tupk6k8284MesQWE8GWKNwFAAjzgXWeIodKo4ep5DH7hpRJ16nuuRziy54ImF5UA==}
     dependencies:
       '@babel/runtime': 7.23.2
       '@noble/curves': 1.2.0
@@ -1283,6 +1307,12 @@ packages:
 
   /@types/bn.js@5.1.3:
     resolution: {integrity: sha512-wT1B4iIO82ecXkdN6waCK8Ou7E71WU+mP1osDA5Q8c6Ur+ozU2vIKUIhSpUr6uE5L2YHocKS1Z2jG2fBC1YVeg==}
+    dependencies:
+      '@types/node': 20.8.9
+    dev: false
+
+  /@types/bn.js@5.1.4:
+    resolution: {integrity: sha512-ZtBd9L8hVtoBpPMSWfbwjC4dhQtJdlPS+e1A0Rydb7vg7bDcUwiRklPx24sMYtXcmAMST/k0Wze7JLbNU/5SkA==}
     dependencies:
       '@types/node': 20.8.9
     dev: false
@@ -2178,8 +2208,8 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001558
-      electron-to-chromium: 1.4.569
+      caniuse-lite: 1.0.30001561
+      electron-to-chromium: 1.4.576
       node-releases: 2.0.13
       update-browserslist-db: 1.0.13(browserslist@4.22.1)
     dev: false
@@ -2269,6 +2299,10 @@ packages:
 
   /caniuse-lite@1.0.30001558:
     resolution: {integrity: sha512-/Et7DwLqpjS47JPEcz6VnxU9PwcIdVi0ciLXRWBQdj1XFye68pSQYpV0QtPTfUKWuOaEig+/Vez2l74eDc1tPQ==}
+    dev: false
+
+  /caniuse-lite@1.0.30001561:
+    resolution: {integrity: sha512-NTt0DNoKe958Q0BE0j0c1V9jbUzhBxHIEJy7asmGrpE0yG63KTV7PLHPnK2E1O9RsQrQ081I3NLuXGS6zht3cw==}
     dev: false
 
   /cbor@8.1.0:
@@ -2521,8 +2555,8 @@ packages:
       stream-shift: 1.0.1
     dev: false
 
-  /electron-to-chromium@1.4.569:
-    resolution: {integrity: sha512-LsrJjZ0IbVy12ApW3gpYpcmHS3iRxH4bkKOW98y1/D+3cvDUWGcbzbsFinfUS8knpcZk/PG/2p/RnkMCYN7PVg==}
+  /electron-to-chromium@1.4.576:
+    resolution: {integrity: sha512-yXsZyXJfAqzWk1WKryr0Wl0MN2D47xodPvEEwlVePBnhU5E7raevLQR+E6b9JAD3GfL/7MbAL9ZtWQQPcLx7wA==}
     dev: false
 
   /elliptic@6.5.4:
@@ -3582,6 +3616,10 @@ packages:
     resolution: {integrity: sha512-mKUD7RRkQQM6s7Rkmi7IFkoEHjuFqRQUaXamO61E6Nn7vqF/bo7EZCmSyrUnp2UWHw0O7XjZ2eeXis+m7tf4lg==}
     dev: false
 
+  /preact@10.18.2:
+    resolution: {integrity: sha512-X/K43vocUHDg0XhWVmTTMbec4LT/iBMh+csCEqJk+pJqegaXsvjdqN80ZZ3L+93azWCnWCZ+WGwYb8SplxeNjA==}
+    dev: false
+
   /preact@10.4.1:
     resolution: {integrity: sha512-WKrRpCSwL2t3tpOOGhf2WfTpcmbpxaWtDbdJdKdjd0aEiTkvOmS4NBkG6kzlaAHI9AkQ3iVqbFWM3Ei7mZ4o1Q==}
     dev: false
@@ -4389,7 +4427,7 @@ packages:
     resolution: {integrity: sha512-Vbk0/vUNZxJlz3RFjAhNNt7qTpX8yE3dn3uFxfX5OHbuon5u65YEOd3civ/aQNW745N0vGUlHFNxxmn+sG9DIw==}
     engines: {node: '>=8.0.0'}
     dependencies:
-      '@types/bn.js': 5.1.3
+      '@types/bn.js': 5.1.4
       '@types/node': 12.20.55
       bignumber.js: 9.1.2
       web3-core-helpers: 1.10.3

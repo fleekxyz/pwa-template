@@ -1,7 +1,7 @@
 import { addEnsContracts, createEnsPublicClient } from '@ensdomains/ensjs'
 import { addresses } from '@ensdomains/ensjs/contracts'
 import { http, parseAbi } from 'viem'
-import { mainnet } from 'viem/chains'
+import { goerli, mainnet } from 'viem/chains'
 
 export const ensClient = createEnsPublicClient({
   chain: mainnet,
@@ -9,6 +9,8 @@ export const ensClient = createEnsPublicClient({
 })
 
 export const mainnetWithEns = addEnsContracts(mainnet)
+
+export const goerliWithEns = addEnsContracts(goerli)
 
 export const ethEnsRegistrar = {
   address: addresses.homestead.ensEthRegistrarController.address,

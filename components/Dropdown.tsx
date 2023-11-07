@@ -5,12 +5,14 @@ import common from '../common.module.css'
 export const Dropdown = ({
   children,
   summary,
+  className,
 }: {
   children: ReactNode
   summary: ReactNode
+  className?: string
 }) => {
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${className || ''}`}>
       <details className={styles.details}>
         <summary
           className={`${styles.summary} ${common.row} ${common.summary}`}

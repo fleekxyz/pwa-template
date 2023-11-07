@@ -37,18 +37,20 @@ export const TransactionSubmit = () => {
   const [ethPrice, setEthPrice] = useState(0)
 
   useEffect(() => {
-   if (name) {
-    ensClient
-    .getPrice({ nameOrNames: `${name}.eth`, duration: ONE_YEAR })
-    .then(({ base }) => {
-      setPrice(base)
-      fetch('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD')
-        .then((res) => res.json())
-        .then((data) => {
-          setEthPrice(data.USD)
+    if (name) {
+      ensClient
+        .getPrice({ nameOrNames: `${name}.eth`, duration: ONE_YEAR })
+        .then(({ base }) => {
+          setPrice(base)
+          fetch(
+            'https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD',
+          )
+            .then((res) => res.json())
+            .then((data) => {
+              setEthPrice(data.USD)
+            })
         })
-    })
-   }
+    }
   }, [name])
 
   const secret = useMemo(() => {
@@ -73,7 +75,7 @@ export const TransactionSubmit = () => {
   })
 
   const [contractGas, setContractGas] = useState(0n)
-  const { data,isLoading: isFeeDataLoading } = useFeeData()
+  const { data, isLoading: isFeeDataLoading } = useFeeData()
 
   const client = usePublicClient()
 
@@ -91,7 +93,13 @@ export const TransactionSubmit = () => {
 
   const { write, isLoading, error } = useContractWrite(config)
 
-  const gasCostInEth = useMemo<bigint>(() => isFeeDataLoading ? 0n: (data?.maxFeePerGas! + data?.maxPriorityFeePerGas!) * contractGas, [isFeeDataLoading, contractGas])
+  const gasCostInEth = useMemo<bigint>(
+    () =>
+      isFeeDataLoading
+        ? 0n
+        : (data?.maxFeePerGas! + data?.maxPriorityFeePerGas!) * contractGas,
+    [isFeeDataLoading, contractGas],
+  )
 
   return (
     <>
@@ -99,9 +107,15 @@ export const TransactionSubmit = () => {
       <p>Your ENS profile is ready to purchase.</p>
       <h2>{name}.eth</h2>
       <div>
-       <span className={styles.price}>${(parseFloat(formatEther(price)) * ethPrice).toPrecision(3)}</span> + ${(parseFloat(formatEther(gasCostInEth)) * ethPrice).toPrecision(3)} fees
+        <span className={styles.price}>
+          ${(parseFloat(formatEther(price)) * ethPrice).toPrecision(3)}
+        </span>{' '}
+        + ${(parseFloat(formatEther(gasCostInEth)) * ethPrice).toPrecision(3)}{' '}
+        fees
       </div>
-      {error ? <p className={common.error}>{(error as BaseError).details}</p> : null}
+      {error ? (
+        <p className={common.error}>{(error as BaseError).details}</p>
+      ) : null}
       <button
         className={common.button}
         disabled={!write || isLoading}

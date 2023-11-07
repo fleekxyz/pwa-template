@@ -1,6 +1,4 @@
 .container {
-  position: relative;
-  width: 194px;
   height: 54px;
 }
 
@@ -9,26 +7,22 @@
   padding: 12px 14px;
   border-radius: 12px;
   cursor: pointer;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-@media screen and (max-width: 800px) {
-  .container {
-    width: 148px;
-  }
+  box-sizing: border-box;
 }
 
 .summary {
   justify-content: space-between;
   align-items: center;
   gap: 8px;
+  height: 100%;
 }
 
 .chevron {
   transition: 300ms;
+}
+
+.details:not([open]) {
+  height: 100%;
 }
 
 .details[open] .chevron {
@@ -43,4 +37,12 @@
   border-radius: 12px;
   cursor: pointer;
   width: 100%;
+}
+
+.details ul {
+  list-style-type: none;
+  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }

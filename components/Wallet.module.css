@@ -11,14 +11,6 @@
   height: 20px;
 }
 
-.walletList {
-  list-style-type: none;
-  padding-left: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
 .connect {
   font-size: 16px;
   font-weight: 600;
@@ -30,4 +22,14 @@
   border-radius: 12px;
   width: 194px;
   height: 32px;
+}
+
+.dropdown {
+  width: 194px;
+}
+
+@media screen and (max-width: 800px) {
+  .dropdown {
+    width: 148px;
+  }
 }

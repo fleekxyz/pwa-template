@@ -3,9 +3,10 @@
 import { usePrivy, useWallets } from '@privy-io/react-auth'
 import styles from './LoginMenu.module.css'
 import common from '../common.module.css'
-import { Address, useAccount, useEnsName } from 'wagmi'
+import { Address, useAccount, useEnsName, useNetwork } from 'wagmi'
 import Link from 'next/link'
 import { usePrivyWagmi } from '@privy-io/wagmi-connector'
+import { useConnected } from '../lib/useConnected'
 
 const SetupLink = () => (
   <Link href="/setup" className={`${styles.link} ${common.button}`}>
@@ -16,6 +17,7 @@ const SetupLink = () => (
 export const LoginMenu = (): JSX.Element => {
   const { login, ready, authenticated } = usePrivy()
 
+  const { chain } = useNetwork()
   const { wallet } = usePrivyWagmi()
 
   const {
@@ -24,17 +26,21 @@ export const LoginMenu = (): JSX.Element => {
     isLoading,
   } = useEnsName({
     address: wallet?.address as Address,
-    enabled: ready && authenticated,
+    enabled: ready && authenticated && !!wallet,
+    chainId: chain?.id,
   })
+
+  const isConnected = useConnected(wallet)
+
 
   if (!ready) {
     return <></>
   }
 
-  if (authenticated) {
+  if (authenticated && isConnected) {
     if (isError)
       return (
-        <p className={`${styles.link} ${common.button}`}>
+        <p className={`${styles.link} ${common.error}`}>
           Error fetching ENS profile
         </p>
       )
