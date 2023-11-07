@@ -15,10 +15,10 @@ const SetupLink = () => (
 )
 
 export const LoginMenu = (): JSX.Element => {
-  const { login, ready, authenticated } = usePrivy()
+  const { login, ready, authenticated, connectWallet } = usePrivy()
 
   const { chain } = useNetwork()
-  const { wallet } = usePrivyWagmi()
+  const { wallet, } = usePrivyWagmi()
 
   const {
     data: ens,
@@ -31,7 +31,6 @@ export const LoginMenu = (): JSX.Element => {
   })
 
   const isConnected = useConnected(wallet)
-
 
   if (!ready) {
     return <></>
@@ -61,7 +60,8 @@ export const LoginMenu = (): JSX.Element => {
         <button
           className={`${styles.link} ${common.button}`}
           onClick={() => {
-            login()
+            if (ready && !authenticated) login()
+            else connectWallet()
           }}
         >
           Sign In
