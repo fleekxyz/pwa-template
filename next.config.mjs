@@ -3,6 +3,14 @@
  */
 export default {
   images: {
-    domains: ['metadata.ens.domains', 'ipfs.io'],
+    remotePatterns: [
+      {
+        hostname: 'ens.domains',
+      },
+      {
+        hostname: 'ipfs.io',
+      },
+    ],
   },
+  output: 'export',
 }

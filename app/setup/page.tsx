@@ -6,7 +6,7 @@ import { SetupStep } from '../../lib/types'
 
 import styles from './page.module.css'
 import common from '../../common.module.css'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import { AvatarUpload } from '../../components/setup/AvatarUpload'
 import { TextRecordsInput } from '../../components/setup/TextRecordsInput'
@@ -26,12 +26,9 @@ const OnboardingProcess = ({ step }: { step: SetupStep }) => {
   }
 }
 
-export default function SetupPage({
-  searchParams,
-}: {
-  searchParams: { step: SetupStep }
-}) {
-  const step = searchParams.step || 'name'
+export default function SetupPage() {
+  const searchParams = useSearchParams()
+  const step = searchParams.get('step') as SetupStep || 'name'
   const router = useRouter()
 
   return (

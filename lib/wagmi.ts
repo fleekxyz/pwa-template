@@ -4,9 +4,11 @@ import { goerliWithEns, mainnetWithEns } from './ens'
 
 export const configureChainsConfig = configureChains(
   [mainnetWithEns, goerliWithEns],
-  [jsonRpcProvider({
-    rpc: () => ({
-      http: `https://rpc.ankr.com/eth`,
+  [
+    jsonRpcProvider({
+      rpc: () => ({
+        http: `https://rpc.ankr.com/eth`,
+      }),
     }),
-  })],
+  ],
 )

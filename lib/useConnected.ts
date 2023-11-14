@@ -1,5 +1,5 @@
-import { ConnectedWallet } from "@privy-io/react-auth"
-import { useEffect, useState } from "react"
+import { ConnectedWallet } from '@privy-io/react-auth'
+import { useEffect, useState } from 'react'
 
 export const useConnected = (wallet?: ConnectedWallet) => {
   const [isConnected, setConnected] = useState(false)

@@ -1,6 +1,8 @@
-import { notFound } from 'next/navigation'
+'use client'
+
+import { useSearchParams } from 'next/navigation'
 import { validateEnsName } from '../../lib/validateEnsName'
-import { EnsNameData } from '../../lib/types'
+import { EnsNameData, FormattedEnsData } from '../../lib/types'
 import { formatEnsData } from '../../lib/formatEnsData'
 import { Avatar } from '../../components/Avatar'
 import Link from 'next/link'
@@ -11,6 +13,7 @@ import common from '../../common.module.css'
 import { ExternalLink } from 'react-external-link'
 import { NavBar } from '../../components/NavBar'
 import { ShareProfile } from '../../components/ShareProfile'
+import { useEffect, useState } from 'react'
 
 const QUERY = `
 query ($name: String!) {
@@ -44,21 +47,33 @@ const getEnsNameData = async (name: string): Promise<EnsNameData> => {
   return json.data.domains[0]
 }
 
-export default async function ProfilePage({
-  params,
-}: {
-  params: { name: string }
-}) {
-  const name = validateEnsName(params.name)
-  if (!name) notFound()
+export default function ProfilePage() {
 
-  const data = await getEnsNameData(name)
+  const params = useSearchParams()
+  const nameInParams = params.get('name')
 
-  if (!data) return notFound()
+  const [formattedData, setFormattedData] = useState<FormattedEnsData>()
+  const [data, setData] = useState<EnsNameData>()
 
-  const formattedData = await formatEnsData(data)
+  useEffect(() => {
+    if (nameInParams) {
+      const name = validateEnsName(nameInParams)
+      if (name) {
+        getEnsNameData(name).then((data) => {
+          setData(data)
+          formatEnsData(data).then((formattedData) => {
+            setFormattedData(formattedData)
+          })
+        })
+      }
+    }
+  }, [nameInParams])
 
-  const links = formattedData.texts.filter((x) => x.type in SOCIAL_ICONS)
+  const links = formattedData ? formattedData.texts.filter((x) => x.type in SOCIAL_ICONS) :[]
+
+  if (!nameInParams) return <>Not Found</>
+
+  if (!data || !formattedData) return <>Loading...</>
 
   return (
     <>
@@ -69,8 +84,8 @@ export default async function ProfilePage({
         <header className={`${styles.header} ${common.center}`}>
           <Avatar
             sizes="(max-width: 768px) 224px, (max-width: 1200px) 256px, 320px"
-            address={data.resolvedAddress.id}
-            ens={params.name}
+            address={data.resolvedAddress!.id}
+            ens={nameInParams}
           />
           <h1>{data.name}</h1>
           {formattedData.location ? (

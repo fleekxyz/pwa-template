@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation'
 import { useEffect, useMemo, useState } from 'react'
 import { ensClient, ethEnsRegistrar } from '../../lib/ens'
-import { BaseError, UserRejectedRequestError, formatEther } from 'viem'
+import { BaseError, formatEther } from 'viem'
 import {
   useAccount,
   useFeeData,
@@ -16,7 +16,6 @@ import { LoadingIcon } from '../LoadingIcon'
 
 import common from '../../common.module.css'
 import styles from './TransactionSubmit.module.css'
-import { goerli } from 'viem/chains'
 
 const ONE_YEAR = 365 * 24 * 60 * 60
 
@@ -77,7 +76,6 @@ export const TransactionSubmit = () => {
   })
 
   const [contractGas, setContractGas] = useState(0n)
-  const { data, isLoading: isFeeDataLoading } = useFeeData()
 
   const client = usePublicClient()
 
@@ -95,13 +93,15 @@ export const TransactionSubmit = () => {
 
   const { write, isLoading, error } = useContractWrite(config)
 
-  const gasCostInEth = useMemo<bigint>(
-    () =>
+
+  const { data: feeData, isLoading: isFeeDataLoading } = useFeeData()
+
+  const gasCostInEth = 
       isFeeDataLoading
         ? 0n
-        : (data?.maxFeePerGas! + data?.maxPriorityFeePerGas!) * contractGas,
-    [isFeeDataLoading, contractGas],
-  )
+        : (feeData?.maxFeePerGas! + feeData?.maxPriorityFeePerGas!) * contractGas
+ 
+        console.log(isFeeDataLoading)
 
   return (
     <>
