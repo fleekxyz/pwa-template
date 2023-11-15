@@ -3,14 +3,7 @@
  */
 export default {
   images: {
-    remotePatterns: [
-      {
-        hostname: 'ens.domains',
-      },
-      {
-        hostname: 'ipfs.io',
-      },
-    ],
+    unoptimized: true
   },
   output: 'export',
 }
