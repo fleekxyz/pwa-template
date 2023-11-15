@@ -48,7 +48,7 @@ export const LoginMenu = (): JSX.Element => {
     if (!ens) return <SetupLink />
     return (
       <>
-        <Link className={`${styles.link} ${common.button}`} href={`/${ens}`}>
+        <Link className={`${styles.link} ${common.button}`} href={`/profile?name=${ens}`}>
           Open my ENS profile
         </Link>
         <SetupLink />
