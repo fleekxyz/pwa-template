@@ -1,24 +1,24 @@
 {
   "dependencies": {
-    "@ensdomains/ensjs": "3.0.0-beta.9",
-    "@privy-io/react-auth": "^1.46.1",
-    "@privy-io/wagmi-connector": "^0.1.5",
+    "@ensdomains/ensjs": "3.0.0-beta.10",
+    "@privy-io/react-auth": "^1.47.2",
+    "@privy-io/wagmi-connector": "^0.1.6",
     "minidenticons": "^4.2.0",
-    "next": "^14.0.0",
+    "next": "^14.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
     "react-external-link": "^2.2.0",
-    "use-debounce": "^9.0.4",
-    "viem": "^1.18.1",
-    "wagmi": "^1.4.5"
+    "use-debounce": "^10.0.0",
+    "viem": "^1.19.3",
+    "wagmi": "^1.4.7"
   },
   "devDependencies": {
     "@fleekxyz/cli": "^0.7.2",
-    "@types/node": "^20.8.9",
-    "@types/react": "^18.2.33",
-    "@types/react-dom": "^18.2.14",
-    "prettier": "^3.0.3",
+    "@types/node": "^20.9.0",
+    "@types/react": "^18.2.37",
+    "@types/react-dom": "^18.2.15",
+    "prettier": "^3.1.0",
     "typescript": "^5.2.2"
   },
   "scripts": {
