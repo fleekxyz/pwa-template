@@ -3,8 +3,7 @@
  */
 export default {
   images: {
-    loader: 'custom',
-    loaderFile: './supabase-image-loader.mjs',
+    unoptimized: true,
   },
   output: 'export',
 }

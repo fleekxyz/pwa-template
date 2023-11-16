@@ -1,22 +1,31 @@
 'use client'
 
-import { useState, useMemo, useEffect } from 'react'
+import {
+  useState,
+  useMemo,
+  useEffect,
+  DetailedHTMLProps,
+  ImgHTMLAttributes,
+} from 'react'
 import { minidenticon } from 'minidenticons'
 import styles from './Avatar.module.css'
-import Image from 'next/image'
 import { zeroAddress } from 'viem'
 
 export const Avatar = ({
   ens,
   address,
   size = 32,
-  sizes,
+  useContainer = true,
+  ...props
 }: {
   address: string
   size?: number
   ens: string
-  sizes?: string
-}) => {
+  useContainer?: boolean
+} & DetailedHTMLProps<
+  ImgHTMLAttributes<HTMLImageElement>,
+  HTMLImageElement
+>) => {
   const svgURI = useMemo(
     () =>
       `data:image/svg+xml;utf8,${encodeURIComponent(
@@ -39,29 +48,39 @@ export const Avatar = ({
         src={svgURI}
         height={size}
         width={size}
-        sizes={sizes}
-        className={styles.avatar}
         alt="avatar"
+        {...props}
+
+        className={`${styles.avatar} ${props.className || ''}`}
       />
     </div>
-  ) : (
+  ) : useContainer ? (
     <div style={{ height: size, width: size }}>
-      <Image
+      <img
         src={ensAvatarUrl}
         alt="avatar"
-        className={styles.avatar}
-        sizes={sizes}
+       
         width={size}
         height={size}
-        onLoadingComplete={(result) => {
-          if (result.naturalWidth === 0) {
-            setLoadingFailed(true)
-          }
-        }}
         onError={() => {
           setLoadingFailed(true)
         }}
+        {...props}
+        className={`${styles.avatar} ${props.className || ''}`}
       />
     </div>
+  ) : (
+    <img
+      src={ensAvatarUrl}
+      alt="avatar"
+      width={size}
+      height={size}
+      onError={() => {
+        setLoadingFailed(true)
+      }}
+      {...props}
+
+      className={`${styles.avatar} ${props.className || ''}`}
+    />
   )
 }

@@ -24,3 +24,22 @@
   text-decoration: none;
   padding: 12px;
 }
+
+.avatar {
+  height: 320px;
+  width: 320px;
+}
+
+@media (max-width: 1200px) {
+  .avatar {
+    height: 256px;
+    width: 256px;
+  }
+}
+
+@media (max-width: 768px) {
+  .avatar {
+    height: 224px;
+    width: 224px;
+  }
+}

@@ -47,7 +47,6 @@ export const Wallet = () => {
 
   if (!ready && !authenticated) return <div className={styles.placeholder} />
 
-
   if ((ready && !authenticated) || !currentWallet || !isConnected) {
     return (
       <button

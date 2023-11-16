@@ -93,15 +93,13 @@ export const TransactionSubmit = () => {
 
   const { write, isLoading, error } = useContractWrite(config)
 
-
   const { data: feeData, isLoading: isFeeDataLoading } = useFeeData()
 
-  const gasCostInEth = 
-      isFeeDataLoading
-        ? 0n
-        : (feeData?.maxFeePerGas! + feeData?.maxPriorityFeePerGas!) * contractGas
- 
-        console.log(isFeeDataLoading)
+  const gasCostInEth = isFeeDataLoading
+    ? 0n
+    : (feeData?.maxFeePerGas! + feeData?.maxPriorityFeePerGas!) * contractGas
+
+  console.log(isFeeDataLoading)
 
   return (
     <>

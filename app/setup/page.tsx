@@ -28,7 +28,7 @@ const OnboardingProcess = ({ step }: { step: SetupStep }) => {
 
 export default function SetupPage() {
   const searchParams = useSearchParams()
-  const step = searchParams.get('step') as SetupStep || 'name'
+  const step = (searchParams.get('step') as SetupStep) || 'name'
   const router = useRouter()
 
   return (

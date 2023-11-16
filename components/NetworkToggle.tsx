@@ -1,6 +1,6 @@
 'use client'
 
-import { useAccount, useNetwork,  } from 'wagmi'
+import { useAccount, useNetwork } from 'wagmi'
 import { Dropdown } from './Dropdown'
 
 import styles from './NetworkToggle.module.css'
@@ -15,7 +15,6 @@ export const NetworkToggle = () => {
   const { chain } = useNetwork()
   const { isLoading, pendingChainId, switchNetwork, reset, chains } =
     useSwitchNetwork({})
-
 
   return mounted && ready && authenticated && chain ? (
     <Dropdown className={styles.dropdown} summary={chain.name}>

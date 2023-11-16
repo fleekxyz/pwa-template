@@ -48,7 +48,6 @@ const getEnsNameData = async (name: string): Promise<EnsNameData> => {
 }
 
 export default function ProfilePage() {
-
   const params = useSearchParams()
   const nameInParams = params.get('name')
 
@@ -69,7 +68,9 @@ export default function ProfilePage() {
     }
   }, [nameInParams])
 
-  const links = formattedData ? formattedData.texts.filter((x) => x.type in SOCIAL_ICONS) :[]
+  const links = formattedData
+    ? formattedData.texts.filter((x) => x.type in SOCIAL_ICONS)
+    : []
 
   if (!nameInParams) return <>Not Found</>
 
@@ -83,9 +84,10 @@ export default function ProfilePage() {
       <main className={`${styles.main} ${common.center}`}>
         <header className={`${styles.header} ${common.center}`}>
           <Avatar
-            sizes="(max-width: 768px) 224px, (max-width: 1200px) 256px, 320px"
             address={data.resolvedAddress!.id}
             ens={nameInParams}
+            className={styles.avatar}
+            useContainer={false}
           />
           <h1>{data.name}</h1>
           {formattedData.location ? (

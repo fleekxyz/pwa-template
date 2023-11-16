@@ -18,7 +18,7 @@ export const LoginMenu = (): JSX.Element => {
   const { login, ready, authenticated, connectWallet } = usePrivy()
 
   const { chain } = useNetwork()
-  const { wallet, } = usePrivyWagmi()
+  const { wallet } = usePrivyWagmi()
 
   const {
     data: ens,
@@ -48,7 +48,10 @@ export const LoginMenu = (): JSX.Element => {
     if (!ens) return <SetupLink />
     return (
       <>
-        <Link className={`${styles.link} ${common.button}`} href={`/profile?name=${ens}`}>
+        <Link
+          className={`${styles.link} ${common.button}`}
+          href={`/profile?name=${ens}`}
+        >
           Open my ENS profile
         </Link>
         <SetupLink />
