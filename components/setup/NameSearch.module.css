@@ -21,7 +21,7 @@
   color: green;
 }
 
-.status[data-status='taken'] {
+.status[data-status='taken'], .status[data-status='invalid'] {
   color: red;
 }
 

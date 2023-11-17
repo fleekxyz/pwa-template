@@ -10,6 +10,7 @@ import common from '../../common.module.css'
 import styles from './NameSearch.module.css'
 import { ensClient } from '../../lib/ens'
 import { useAccount } from 'wagmi'
+import { validateEnsName } from '../../lib/validateEnsName'
 
 const fragmentMono = Fragment_Mono({
   subsets: ['latin'],
@@ -33,13 +34,14 @@ export const NameSearch = () => {
   const router = useRouter()
 
   const [isAvailable, setAvailable] = useState<boolean | null>(null)
+  const isValid = validateEnsName(debouncedName)
 
   useEffect(() => {
     setAvailable(null)
     ensClient
-      .getAvailable({ name: `${name}.eth` })
+      .getAvailable({ name: `${debouncedName}.eth` })
       .then((available) => setAvailable(available))
-  }, [name])
+  }, [debouncedName])
 
   return (
     <>
@@ -49,7 +51,7 @@ export const NameSearch = () => {
           <input
             className={`${common.input} ${fragmentMono.className} ${styles.nameInput}`}
             value={name}
-            style={{ width: `${name.length || 5}ch` }}
+            style={{ width: `${debouncedName.length || 5}ch` }}
             onChange={(e) => {
               const value = e.currentTarget.value
 
@@ -66,7 +68,7 @@ export const NameSearch = () => {
           disabled={!isAvailable}
           className={`${common.button} ${styles.searchButton}`}
           onClick={() => {
-            sessionStorage.setItem('name', name)
+            sessionStorage.setItem('name', debouncedName)
             router.push(
               `/setup?${createQueryString<SetupStep>('step', 'avatar')}`,
             )
@@ -78,16 +80,26 @@ export const NameSearch = () => {
       <span
         className={styles.status}
         data-status={
-          isConnected ? (isAvailable ? 'available' : 'taken') : 'disabled'
+          isConnected
+            ? isValid
+              ? isAvailable
+                ? 'available'
+                : 'taken'
+              : 'invalid'
+            : 'disabled'
         }
       >
         {isConnected ? (
           isAvailable === null ? (
             <LoadingIcon />
-          ) : isAvailable ? (
-            <>Available</>
+          ) : isValid ? (
+            isAvailable ? (
+              <>Available</>
+            ) : (
+              <>Taken</>
+            )
           ) : (
-            <>Taken</>
+            <>Invalid</>
           )
         ) : (
           <>Start typing</>

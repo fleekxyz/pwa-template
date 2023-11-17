@@ -10,18 +10,22 @@ import {
   usePrepareContractWrite,
   usePublicClient,
   useAccount,
+  useWaitForTransaction,
 } from 'wagmi'
 import { makeCommitment, randomSecret } from '@ensdomains/ensjs/utils'
 import { LoadingIcon } from '../LoadingIcon'
 
 import common from '../../common.module.css'
 import styles from './TransactionSubmit.module.css'
+import { useOnMount } from '../../lib/useOnMount'
 
 const ONE_YEAR = 365 * 24 * 60 * 60
 
 export const TransactionSubmit = () => {
   const router = useRouter()
   const [name, setName] = useState('')
+
+  const isMounted = useOnMount()
 
   useEffect(() => {
     const cachedName = sessionStorage.getItem('name')
@@ -92,13 +96,39 @@ export const TransactionSubmit = () => {
     enabled: commitmentHash !== '0x' && isConnected,
   })
 
-  const { write, isLoading, error } = useContractWrite(config)
+  const { write, isLoading, error, data, isSuccess } = useContractWrite({
+    ...config,
+    onSuccess: ({ hash }) => {
+      localStorage.setItem('commit-tx-hash', hash)
+    },
+  })
 
   const { data: feeData, isLoading: isFeeDataLoading } = useFeeData()
 
   const gasCostInEth = isFeeDataLoading
     ? 0n
-    : (feeData?.maxFeePerGas! + feeData?.maxPriorityFeePerGas!) * contractGas
+    : (feeData?.lastBaseFeePerGas! + feeData?.maxPriorityFeePerGas!) *
+      contractGas
+
+  const [commitTxHash, setCommitTxHash] = useState<Hash | undefined>(undefined)
+
+  useEffect(() => {
+    if (data?.hash) setCommitTxHash(data.hash)
+    else if (isMounted) {
+      const hash = localStorage.getItem('commit-tx-hash')
+
+      if (hash) setCommitTxHash(hash as Hash)
+    }
+  }, [data, isMounted])
+
+  const receipt = useWaitForTransaction({
+    hash: commitTxHash,
+    enabled: Boolean(commitTxHash),
+  })
+
+  useEffect(() => {
+    if (receipt.isFetched) localStorage.removeItem('commit-tx-hash')
+  }, [receipt])
 
   return (
     <>
@@ -124,6 +154,7 @@ export const TransactionSubmit = () => {
       >
         {isLoading ? <LoadingIcon /> : 'Commit'}
       </button>
+      <h1>{receipt.status}</h1>
     </>
   )
 }

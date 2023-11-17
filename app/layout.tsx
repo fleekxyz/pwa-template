@@ -41,7 +41,7 @@ export default function RootLayout({
             walletConnectors: [EthereumWalletConnectors],
             environmentId: process.env.NEXT_PUBLIC_DYNAMIC_ENV_ID!,
             appName: 'Fleek PWA Template',
-            appLogoUrl: '/manifest/flk-256.png'
+            appLogoUrl: '/manifest/flk-256.png',
           }}
         >
           <DynamicWagmiConnector>{children}</DynamicWagmiConnector>

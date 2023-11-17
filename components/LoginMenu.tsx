@@ -14,9 +14,8 @@ const SetupLink = () => (
 )
 
 export const LoginMenu = (): JSX.Element => {
-  const { chain } = useNetwork()
-  
-  const { primaryWallet, user,setShowAuthFlow,showAuthFlow } = useDynamicContext()
+  const { primaryWallet, user, setShowAuthFlow, showAuthFlow } =
+    useDynamicContext()
 
   const {
     data: ens,
@@ -25,7 +24,6 @@ export const LoginMenu = (): JSX.Element => {
   } = useEnsName({
     address: primaryWallet?.address as Address,
     enabled: !!user && !!primaryWallet,
-    chainId: chain?.id,
   })
 
   if (user && primaryWallet) {
