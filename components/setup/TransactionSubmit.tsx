@@ -1,11 +1,10 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ensClient, ethEnsRegistrar } from '../../lib/ens'
-import { BaseError, formatEther } from 'viem'
+import { Address, BaseError, Hash, formatEther } from 'viem'
 import {
-  useAccount,
   useFeeData,
   useContractWrite,
   usePrepareContractWrite,
@@ -16,13 +15,15 @@ import { LoadingIcon } from '../LoadingIcon'
 
 import common from '../../common.module.css'
 import styles from './TransactionSubmit.module.css'
+import { usePrivyWagmi } from '@privy-io/wagmi-connector'
 
 const ONE_YEAR = 365 * 24 * 60 * 60
 
 export const TransactionSubmit = () => {
   const router = useRouter()
   const [name, setName] = useState('')
-  const { address, isConnected } = useAccount()
+
+  const { wallet } = usePrivyWagmi()
 
   useEffect(() => {
     const cachedName = sessionStorage.getItem('name')
@@ -53,43 +54,45 @@ export const TransactionSubmit = () => {
     }
   }, [name])
 
-  const secret = useMemo(() => {
-    return randomSecret()
-  }, [name])
+  const [commitmentHash, setCommitmentHash] = useState<Hash>('0x')
 
-  const commitmentHash = useMemo(() => {
-    if (name && isConnected && secret)
-      return makeCommitment({
-        name: `${name}.eth`,
-        owner: address!,
-        duration: 0,
-        secret,
-      })
-    else return '0x'
-  }, [isConnected])
-
-  const { config } = usePrepareContractWrite({
-    ...ethEnsRegistrar,
-    functionName: 'commit',
-    args: [commitmentHash],
-    enabled: commitmentHash !== '0x',
-  })
+  useEffect(() => {
+    if (name && wallet && wallet.address) {
+      setCommitmentHash(
+        makeCommitment({
+          name: `${name}.eth`,
+          owner: wallet.address as Address,
+          duration: 0,
+          secret: randomSecret(),
+        }),
+      )
+    } else setCommitmentHash('0x')
+  }, [name, wallet])
 
   const [contractGas, setContractGas] = useState(0n)
 
   const client = usePublicClient()
 
   useEffect(() => {
-    if (commitmentHash !== '0x')
+    if (wallet && commitmentHash !== '0x')
       client
         .estimateContractGas({
           ...ethEnsRegistrar,
           functionName: 'commit',
           args: [commitmentHash],
-          account: address!,
+          account: wallet.address as Address,
         })
-        .then((gas) => setContractGas(gas))
-  }, [commitmentHash])
+        .then((gas) => {
+          setContractGas(gas)
+        })
+  }, [commitmentHash, wallet])
+
+  const { config } = usePrepareContractWrite({
+    ...ethEnsRegistrar,
+    functionName: 'commit',
+    args: [commitmentHash],
+    enabled: commitmentHash !== '0x' && !wallet,
+  })
 
   const { write, isLoading, error } = useContractWrite(config)
 
@@ -98,8 +101,6 @@ export const TransactionSubmit = () => {
   const gasCostInEth = isFeeDataLoading
     ? 0n
     : (feeData?.maxFeePerGas! + feeData?.maxPriorityFeePerGas!) * contractGas
-
-  console.log(isFeeDataLoading)
 
   return (
     <>

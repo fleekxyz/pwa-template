@@ -50,7 +50,6 @@ export const Avatar = ({
         width={size}
         alt="avatar"
         {...props}
-
         className={`${styles.avatar} ${props.className || ''}`}
       />
     </div>
@@ -59,7 +58,6 @@ export const Avatar = ({
       <img
         src={ensAvatarUrl}
         alt="avatar"
-       
         width={size}
         height={size}
         onError={() => {
@@ -79,7 +77,6 @@ export const Avatar = ({
         setLoadingFailed(true)
       }}
       {...props}
-
       className={`${styles.avatar} ${props.className || ''}`}
     />
   )

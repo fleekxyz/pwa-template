@@ -5,5 +5,6 @@ export default {
   images: {
     unoptimized: true,
   },
+  trailingSlash: true,
   output: 'export',
 }
