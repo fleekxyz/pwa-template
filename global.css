@@ -38,3 +38,15 @@ p {
 ul {
   padding-left: 0;
 }
+
+.dynamic-shadow-dom {
+  --dynamic-text-size-body-mini: 11px;
+  --dynamic-text-size-body-normal: 15px;
+  --dynamic-text-size-body-small: 14px;
+  --dynamic-text-size-button-primary: 14px;
+  --dynamic-text-size-button-secondary: 12px;
+  --dynamic-text-size-numbers-big: 14px;
+  --dynamic-text-size-numbers-medium: 12px;
+  --dynamic-text-size-numbers-small: 10px;
+  --dynamic-text-size-title: 18px;
+}

@@ -1,7 +1,11 @@
-import { Provider } from '../components/Provider'
 import { Manrope } from 'next/font/google'
 
 import '../global.css'
+import {
+  DynamicContextProvider,
+  DynamicWagmiConnector,
+  EthereumWalletConnectors,
+} from '../lib/dynamic'
 
 export const metadata = {
   title: 'Fleek PWA Template',
@@ -32,7 +36,16 @@ export default function RootLayout({
       <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
       <body className={manrope.className}>
-        <Provider>{children}</Provider>
+        <DynamicContextProvider
+          settings={{
+            walletConnectors: [EthereumWalletConnectors],
+            environmentId: process.env.NEXT_PUBLIC_DYNAMIC_ENV_ID!,
+            appName: 'Fleek PWA Template',
+            appLogoUrl: '/manifest/flk-256.png'
+          }}
+        >
+          <DynamicWagmiConnector>{children}</DynamicWagmiConnector>
+        </DynamicContextProvider>
       </body>
     </html>
   )

@@ -1,12 +1,11 @@
 'use client'
 
-import { usePrivy, useWallets } from '@privy-io/react-auth'
 import styles from './LoginMenu.module.css'
 import common from '../common.module.css'
-import { Address, useAccount, useEnsName, useNetwork } from 'wagmi'
+import { Address, useEnsName, useNetwork } from 'wagmi'
 import Link from 'next/link'
-import { usePrivyWagmi } from '@privy-io/wagmi-connector'
-import { useConnected } from '../lib/useConnected'
+import { useDynamicContext } from '../lib/dynamic'
+import { LoadingIcon } from './LoadingIcon'
 
 const SetupLink = () => (
   <Link href="/setup" className={`${styles.link} ${common.button}`}>
@@ -15,28 +14,21 @@ const SetupLink = () => (
 )
 
 export const LoginMenu = (): JSX.Element => {
-  const { login, ready, authenticated, connectWallet } = usePrivy()
-
   const { chain } = useNetwork()
-  const { wallet } = usePrivyWagmi()
+  
+  const { primaryWallet, user,setShowAuthFlow,showAuthFlow } = useDynamicContext()
 
   const {
     data: ens,
     isError,
     isLoading,
   } = useEnsName({
-    address: wallet?.address as Address,
-    enabled: ready && authenticated && !!wallet,
+    address: primaryWallet?.address as Address,
+    enabled: !!user && !!primaryWallet,
     chainId: chain?.id,
   })
 
-  const isConnected = useConnected(wallet)
-
-  if (!ready) {
-    return <></>
-  }
-
-  if (authenticated && isConnected) {
+  if (user && primaryWallet) {
     if (isError)
       return (
         <p className={`${styles.link} ${common.error}`}>
@@ -59,17 +51,15 @@ export const LoginMenu = (): JSX.Element => {
     )
   } else {
     return (
-      <>
-        <button
-          className={`${styles.link} ${common.button}`}
-          onClick={() => {
-            if (ready && !authenticated) login()
-            else connectWallet()
-          }}
-        >
-          Sign In
-        </button>
-      </>
+      <button
+        disabled={showAuthFlow}
+        className={`${styles.link} ${common.button}`}
+        onClick={() => {
+          setShowAuthFlow(true)
+        }}
+      >
+        {showAuthFlow ? <LoadingIcon /> : 'Sign In'}
+      </button>
     )
   }
 }

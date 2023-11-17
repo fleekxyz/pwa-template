@@ -9,21 +9,19 @@ import {
   useContractWrite,
   usePrepareContractWrite,
   usePublicClient,
+  useAccount,
 } from 'wagmi'
 import { makeCommitment, randomSecret } from '@ensdomains/ensjs/utils'
 import { LoadingIcon } from '../LoadingIcon'
 
 import common from '../../common.module.css'
 import styles from './TransactionSubmit.module.css'
-import { usePrivyWagmi } from '@privy-io/wagmi-connector'
 
 const ONE_YEAR = 365 * 24 * 60 * 60
 
 export const TransactionSubmit = () => {
   const router = useRouter()
   const [name, setName] = useState('')
-
-  const { wallet } = usePrivyWagmi()
 
   useEffect(() => {
     const cachedName = sessionStorage.getItem('name')
@@ -34,7 +32,7 @@ export const TransactionSubmit = () => {
   }, [])
 
   const [price, setPrice] = useState(0n)
-
+  const { address, isConnected } = useAccount()
   const [ethPrice, setEthPrice] = useState(0)
 
   useEffect(() => {
@@ -57,41 +55,41 @@ export const TransactionSubmit = () => {
   const [commitmentHash, setCommitmentHash] = useState<Hash>('0x')
 
   useEffect(() => {
-    if (name && wallet && wallet.address) {
+    if (name && address) {
       setCommitmentHash(
         makeCommitment({
           name: `${name}.eth`,
-          owner: wallet.address as Address,
+          owner: address!,
           duration: 0,
           secret: randomSecret(),
         }),
       )
     } else setCommitmentHash('0x')
-  }, [name, wallet])
+  }, [name, address])
 
   const [contractGas, setContractGas] = useState(0n)
 
   const client = usePublicClient()
 
   useEffect(() => {
-    if (wallet && commitmentHash !== '0x')
+    if (address && commitmentHash !== '0x')
       client
         .estimateContractGas({
           ...ethEnsRegistrar,
           functionName: 'commit',
           args: [commitmentHash],
-          account: wallet.address as Address,
+          account: address,
         })
         .then((gas) => {
           setContractGas(gas)
         })
-  }, [commitmentHash, wallet])
+  }, [commitmentHash, address])
 
   const { config } = usePrepareContractWrite({
     ...ethEnsRegistrar,
     functionName: 'commit',
     args: [commitmentHash],
-    enabled: commitmentHash !== '0x' && !wallet,
+    enabled: commitmentHash !== '0x' && isConnected,
   })
 
   const { write, isLoading, error } = useContractWrite(config)

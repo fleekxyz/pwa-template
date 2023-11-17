@@ -1,4 +1,3 @@
-import { usePrivy } from '@privy-io/react-auth'
 import { Fragment_Mono } from 'next/font/google'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -10,6 +9,7 @@ import { LoadingIcon } from '../LoadingIcon'
 import common from '../../common.module.css'
 import styles from './NameSearch.module.css'
 import { ensClient } from '../../lib/ens'
+import { useAccount } from 'wagmi'
 
 const fragmentMono = Fragment_Mono({
   subsets: ['latin'],
@@ -19,8 +19,6 @@ const fragmentMono = Fragment_Mono({
 })
 
 export const NameSearch = () => {
-  const { ready, authenticated } = usePrivy()
-
   const [name, setName] = useState<string>('')
 
   useEffect(() => {
@@ -30,8 +28,7 @@ export const NameSearch = () => {
   }, [])
 
   const [debouncedName] = useDebounce(name, 500)
-
-  const enabled = ready && authenticated && !!debouncedName
+  const { isConnected } = useAccount()
 
   const router = useRouter()
 
@@ -66,7 +63,7 @@ export const NameSearch = () => {
           .eth
         </span>
         <button
-          disabled={!enabled || !isAvailable}
+          disabled={!isAvailable}
           className={`${common.button} ${styles.searchButton}`}
           onClick={() => {
             sessionStorage.setItem('name', name)
@@ -81,10 +78,10 @@ export const NameSearch = () => {
       <span
         className={styles.status}
         data-status={
-          enabled ? (isAvailable ? 'available' : 'taken') : 'disabled'
+          isConnected ? (isAvailable ? 'available' : 'taken') : 'disabled'
         }
       >
-        {enabled ? (
+        {isConnected ? (
           isAvailable === null ? (
             <LoadingIcon />
           ) : isAvailable ? (
