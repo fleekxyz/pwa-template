@@ -20,12 +20,14 @@ export const formatEnsData = async ({ resolver, name }: EnsNameData) => {
         type: record.slice(4) as LinkType,
         text: text!,
       })
-    } else if (['url', 'email'].includes(record)) {
+    }
+    else if (['url', 'email'].includes(record)) {
       data.texts.push({
         type: record as LinkType,
         text: text!,
       })
-    } else {
+    }
+    else {
       data[record as 'description' | 'avatar' | 'location'] = text!
     }
   }

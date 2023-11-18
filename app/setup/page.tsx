@@ -10,7 +10,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import { AvatarUpload } from '../../components/setup/AvatarUpload'
 import { TextRecordsInput } from '../../components/setup/TextRecordsInput'
-import { TransactionSubmit } from '../../components/setup/TransactionSubmit'
+import { Commit } from '../../components/setup/Commit'
 
 const OnboardingProcess = ({ step }: { step: SetupStep }) => {
   switch (step) {
@@ -21,8 +21,8 @@ const OnboardingProcess = ({ step }: { step: SetupStep }) => {
       return <AvatarUpload />
     case 'social':
       return <TextRecordsInput />
-    case 'register':
-      return <TransactionSubmit />
+    case 'commit':
+      return <Commit />
   }
 }
 
@@ -34,11 +34,13 @@ export default function SetupPage() {
   return (
     <>
       <NavBar>
-        {step === 'name' ? null : (
-          <button className={common.button} onClick={() => router.back()}>
-            <Image height={32} width={32} src="/icons/undo.svg" alt="Back" />
-          </button>
-        )}
+        {step === 'name'
+          ? null
+          : (
+            <button className={common.button} onClick={() => router.back()}>
+              <Image height={32} width={32} src="/icons/undo.svg" alt="Back" />
+            </button>
+            )}
       </NavBar>
       <main className={`${styles.main} ${common.center}`}>
         <OnboardingProcess step={step} />

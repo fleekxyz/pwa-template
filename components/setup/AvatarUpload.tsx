@@ -45,19 +45,21 @@ export const AvatarUpload = () => {
       >
         <input {...getInputProps()} />
         {isDragActive ? <p>Drop it here</p> : <>+</>}
-        {image ? (
-          <Image
-            width={250}
-            height={250}
-            className={styles.image}
-            src={image.preview}
-            alt="Avatar"
-            onLoad={() => sessionStorage.setItem('avatar', image.preview)}
-            onError={() => {
-              setImage(null)
-            }}
-          />
-        ) : null}
+        {image
+          ? (
+            <Image
+              width={250}
+              height={250}
+              className={styles.image}
+              src={image.preview}
+              alt="Avatar"
+              onLoad={() => sessionStorage.setItem('avatar', image.preview)}
+              onError={() => {
+                setImage(null)
+              }}
+            />
+            )
+          : null}
       </div>
       <div className={`${common.row} ${styles.buttonMenu}`}>
         <button
@@ -70,18 +72,20 @@ export const AvatarUpload = () => {
         >
           {image ? 'Next' : 'Skip'}
         </button>
-        {image ? (
-          <button
-            className={common.button}
-            onClick={() => {
-              sessionStorage.removeItem('avatar')
-              URL.revokeObjectURL(image.preview)
-              setImage(null)
-            }}
-          >
-            Clear
-          </button>
-        ) : null}
+        {image
+          ? (
+            <button
+              className={common.button}
+              onClick={() => {
+                sessionStorage.removeItem('avatar')
+                URL.revokeObjectURL(image.preview)
+                setImage(null)
+              }}
+            >
+              Clear
+            </button>
+            )
+          : null}
       </div>
     </>
   )

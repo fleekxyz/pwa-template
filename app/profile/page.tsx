@@ -69,7 +69,7 @@ export default function ProfilePage() {
   }, [nameInParams])
 
   const links = formattedData
-    ? formattedData.texts.filter((x) => x.type in SOCIAL_ICONS)
+    ? formattedData.texts.filter(x => x.type in SOCIAL_ICONS)
     : []
 
   if (!nameInParams) return <>Not Found</>
@@ -90,17 +90,20 @@ export default function ProfilePage() {
             useContainer={false}
           />
           <h1>{data.name}</h1>
-          {formattedData.location ? (
-            <p className={styles.location}>
-              <Image
-                src="/icons/location.svg"
-                height={24}
-                width={24}
-                alt="Location:"
-              />{' '}
-              {formattedData.location}
-            </p>
-          ) : null}
+          {formattedData.location
+            ? (
+              <p className={styles.location}>
+                <Image
+                  src="/icons/location.svg"
+                  height={24}
+                  width={24}
+                  alt="Location:"
+                />
+                {' '}
+                {formattedData.location}
+              </p>
+              )
+            : null}
         </header>
         <div className={`${styles.links} ${common.center}`}>
           {links.map((social) => {
@@ -108,33 +111,35 @@ export default function ProfilePage() {
 
             if (!social.text) return null
 
-            return baseURL.startsWith('https') ? (
-              <Link
-                className={`${styles.link} ${common.button}`}
-                href={`${baseURL}/${social.text}`}
-                key={social.type}
-              >
-                <Image
-                  src={imagePath}
-                  alt={social.type}
-                  width={32}
-                  height={32}
-                />
-              </Link>
-            ) : (
-              <ExternalLink
-                className={`${styles.link} ${common.button}`}
-                key={social.type}
-                href={`${baseURL}${social.text}`}
-              >
-                <Image
-                  src={imagePath}
-                  alt={social.type}
-                  width={32}
-                  height={32}
-                />
-              </ExternalLink>
-            )
+            return baseURL.startsWith('https')
+              ? (
+                <Link
+                  className={`${styles.link} ${common.button}`}
+                  href={`${baseURL}/${social.text}`}
+                  key={social.type}
+                >
+                  <Image
+                    src={imagePath}
+                    alt={social.type}
+                    width={32}
+                    height={32}
+                  />
+                </Link>
+                )
+              : (
+                <ExternalLink
+                  className={`${styles.link} ${common.button}`}
+                  key={social.type}
+                  href={`${baseURL}${social.text}`}
+                >
+                  <Image
+                    src={imagePath}
+                    alt={social.type}
+                    width={32}
+                    height={32}
+                  />
+                </ExternalLink>
+                )
           })}
         </div>
         {formattedData.description ? <p>{formattedData.description}</p> : null}

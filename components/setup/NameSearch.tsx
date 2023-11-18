@@ -40,7 +40,7 @@ export const NameSearch = () => {
     setAvailable(null)
     ensClient
       .getAvailable({ name: `${debouncedName}.eth` })
-      .then((available) => setAvailable(available))
+      .then(available => setAvailable(available))
   }, [debouncedName])
 
   return (
@@ -89,21 +89,29 @@ export const NameSearch = () => {
             : 'disabled'
         }
       >
-        {isConnected ? (
-          isAvailable === null ? (
-            <LoadingIcon />
-          ) : isValid ? (
-            isAvailable ? (
-              <>Available</>
-            ) : (
-              <>Taken</>
+        {isConnected
+          ? (
+              isAvailable === null
+                ? (
+                  <LoadingIcon />
+                  )
+                : isValid
+                  ? (
+                      isAvailable
+                        ? (
+                          <>Available</>
+                          )
+                        : (
+                          <>Taken</>
+                          )
+                    )
+                  : (
+                    <>Invalid</>
+                    )
             )
-          ) : (
-            <>Invalid</>
-          )
-        ) : (
-          <>Start typing</>
-        )}
+          : (
+            <>Start typing</>
+            )}
       </span>
     </>
   )

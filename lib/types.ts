@@ -18,12 +18,12 @@ export type LinkType =
   | 'url'
 
 export type FormattedEnsData = {
-  texts: { type: LinkType; text: string }[]
-  coins: { type: string; address: string }[]
+  texts: { type: LinkType, text: string }[]
+  coins: { type: string, address: string }[]
 } & Partial<{
   description: string
   avatar: string
   location: string
 }>
 
-export type SetupStep = 'name' | 'avatar' | 'social' | 'register'
+export type SetupStep = 'name' | 'avatar' | 'social' | 'commit' | 'wait' | 'register'

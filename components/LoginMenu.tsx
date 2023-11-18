@@ -2,7 +2,7 @@
 
 import styles from './LoginMenu.module.css'
 import common from '../common.module.css'
-import { Address, useEnsName, useNetwork } from 'wagmi'
+import { Address, useEnsName } from 'wagmi'
 import Link from 'next/link'
 import { useDynamicContext } from '../lib/dynamic'
 import { LoadingIcon } from './LoadingIcon'
@@ -13,9 +13,9 @@ const SetupLink = () => (
   </Link>
 )
 
-export const LoginMenu = (): JSX.Element => {
-  const { primaryWallet, user, setShowAuthFlow, showAuthFlow } =
-    useDynamicContext()
+export const LoginMenu = () => {
+  const { primaryWallet, user, setShowAuthFlow, showAuthFlow }
+    = useDynamicContext()
 
   const {
     data: ens,
@@ -47,7 +47,8 @@ export const LoginMenu = (): JSX.Element => {
         <SetupLink />
       </>
     )
-  } else {
+  }
+  else {
     return (
       <button
         disabled={showAuthFlow}

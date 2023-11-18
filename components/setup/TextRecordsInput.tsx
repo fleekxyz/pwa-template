@@ -22,7 +22,8 @@ export const TextRecordsInput = () => {
     if (records) {
       try {
         setTextRecords(JSON.parse(records))
-      } catch {}
+      }
+      catch {}
     }
   }, [])
 
@@ -40,7 +41,7 @@ export const TextRecordsInput = () => {
             sessionStorage.setItem('text-records', JSON.stringify(entries))
 
             router.push(
-              `/setup?${createQueryString<SetupStep>('step', 'register')}`,
+              `/setup?${createQueryString<SetupStep>('step', 'commit')}`,
             )
           }
         }}

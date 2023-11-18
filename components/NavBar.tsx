@@ -3,7 +3,6 @@ import common from '../common.module.css'
 import { ReactNode } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import dynamic from 'next/dynamic'
 import { DynamicWidget } from '../lib/dynamic'
 
 export const NavBar = ({ children }: { children?: ReactNode }) => {

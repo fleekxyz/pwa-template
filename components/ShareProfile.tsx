@@ -13,7 +13,8 @@ export const ShareProfile = () => {
             title: 'Share your ENS profile',
             text: location.href,
           })
-        } else await navigator.clipboard.writeText(location.href)
+        }
+        else await navigator.clipboard.writeText(location.href)
       }}
     >
       <Image src="/icons/share.svg" height={32} width={32} alt="Share" />

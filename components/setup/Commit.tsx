@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { ensClient, ethEnsRegistrar } from '../../lib/ens'
-import { Address, BaseError, Hash, formatEther } from 'viem'
+import { BaseError, Hash, formatEther } from 'viem'
 import {
   useFeeData,
   useContractWrite,
@@ -21,7 +21,7 @@ import { useOnMount } from '../../lib/useOnMount'
 
 const ONE_YEAR = 365 * 24 * 60 * 60
 
-export const TransactionSubmit = () => {
+export const Commit = () => {
   const router = useRouter()
   const [name, setName] = useState('')
 
@@ -48,7 +48,7 @@ export const TransactionSubmit = () => {
           fetch(
             'https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD',
           )
-            .then((res) => res.json())
+            .then(res => res.json())
             .then((data) => {
               setEthPrice(data.USD)
             })
@@ -68,7 +68,8 @@ export const TransactionSubmit = () => {
           secret: randomSecret(),
         }),
       )
-    } else setCommitmentHash('0x')
+    }
+    else setCommitmentHash('0x')
   }, [name, address])
 
   const [contractGas, setContractGas] = useState(0n)
@@ -96,7 +97,7 @@ export const TransactionSubmit = () => {
     enabled: commitmentHash !== '0x' && isConnected,
   })
 
-  const { write, isLoading, error, data, isSuccess } = useContractWrite({
+  const { write, isLoading, error, data } = useContractWrite({
     ...config,
     onSuccess: ({ hash }) => {
       localStorage.setItem('commit-tx-hash', hash)
@@ -107,8 +108,8 @@ export const TransactionSubmit = () => {
 
   const gasCostInEth = isFeeDataLoading
     ? 0n
-    : (feeData?.lastBaseFeePerGas! + feeData?.maxPriorityFeePerGas!) *
-      contractGas
+    : (feeData?.lastBaseFeePerGas! + feeData?.maxPriorityFeePerGas!)
+      * contractGas
 
   const [commitTxHash, setCommitTxHash] = useState<Hash | undefined>(undefined)
 
@@ -127,24 +128,36 @@ export const TransactionSubmit = () => {
   })
 
   useEffect(() => {
-    if (receipt.isFetched) localStorage.removeItem('commit-tx-hash')
+    if (receipt.isFetched) {
+      localStorage.removeItem('commit-tx-hash')
+      localStorage.setItem('commit-tx-date', (Date.now()).toString())
+    }
   }, [receipt])
 
   return (
     <>
       <h1>Checkout</h1>
       <p>Your ENS profile is ready to purchase.</p>
-      <h2>{name}.eth</h2>
+      <h2>
+        {name}
+        .eth
+      </h2>
       <div>
         <span className={styles.price}>
-          ${(parseFloat(formatEther(price)) * ethPrice).toPrecision(3)}
-        </span>{' '}
-        + ${(parseFloat(formatEther(gasCostInEth)) * ethPrice).toPrecision(3)}{' '}
+          $
+          {(parseFloat(formatEther(price)) * ethPrice).toPrecision(3)}
+        </span>
+        {' '}
+        + $
+        {(parseFloat(formatEther(gasCostInEth)) * ethPrice).toPrecision(3)}
+        {' '}
         fees
       </div>
-      {error ? (
-        <p className={common.error}>{(error as BaseError).details}</p>
-      ) : null}
+      {error
+        ? (
+          <p className={common.error}>{(error as BaseError).details}</p>
+          )
+        : null}
       <button
         className={common.button}
         disabled={!write || isLoading}
@@ -154,7 +167,7 @@ export const TransactionSubmit = () => {
       >
         {isLoading ? <LoadingIcon /> : 'Commit'}
       </button>
-      <h1>{receipt.status}</h1>
+      <div>{receipt.status}</div>
     </>
   )
 }
