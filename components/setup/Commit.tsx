@@ -11,24 +11,42 @@ import {
   usePublicClient,
   useAccount,
   useWaitForTransaction,
+  useNetwork,
 } from 'wagmi'
 import { makeCommitment, randomSecret } from '@ensdomains/ensjs/utils'
 import { LoadingIcon } from '../LoadingIcon'
 
 import common from '../../common.module.css'
-import styles from './TransactionSubmit.module.css'
+import styles from './Commit.module.css'
 import { useOnMount } from '../../lib/useOnMount'
+import { TransactionStatus } from '../TransactionStatus'
+import { createQueryString } from '../../lib/createQueryString'
+import { SetupStep } from '../../lib/types'
 
 const ONE_YEAR = 365 * 24 * 60 * 60
+
+const GoToWait = () => {
+  const router = useRouter()
+
+  useEffect(() => {
+    router.push(
+      `/setup?${createQueryString<SetupStep>('step', 'wait')}`,
+    )
+  }, [])
+
+  return <></>
+}
 
 export const Commit = () => {
   const router = useRouter()
   const [name, setName] = useState('')
 
+  const { chain } = useNetwork()
+
   const isMounted = useOnMount()
 
   useEffect(() => {
-    const cachedName = sessionStorage.getItem('name')
+    const cachedName = localStorage.getItem('name')
 
     if (!cachedName) return router.push('/setup')
 
@@ -167,7 +185,7 @@ export const Commit = () => {
       >
         {isLoading ? <LoadingIcon /> : 'Commit'}
       </button>
-      <div>{receipt.status}</div>
+      {receipt ? receipt.status === 'success' ? <GoToWait /> : <TransactionStatus chain={chain!} hash={commitTxHash} status={receipt.status} /> : null}
     </>
   )
 }

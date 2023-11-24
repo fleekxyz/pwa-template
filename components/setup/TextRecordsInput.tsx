@@ -17,12 +17,13 @@ export const TextRecordsInput = () => {
   const router = useRouter()
 
   useEffect(() => {
-    const records = sessionStorage.getItem('text-records')
+    const records = localStorage.getItem('text-records')
 
     if (records) {
       try {
         setTextRecords(JSON.parse(records))
       }
+      // eslint-disable-next-line no-empty
       catch {}
     }
   }, [])
@@ -38,7 +39,7 @@ export const TextRecordsInput = () => {
           const entries = Object.fromEntries(fd.entries())
 
           if (e.currentTarget.reportValidity()) {
-            sessionStorage.setItem('text-records', JSON.stringify(entries))
+            localStorage.setItem('text-records', JSON.stringify(entries))
 
             router.push(
               `/setup?${createQueryString<SetupStep>('step', 'commit')}`,

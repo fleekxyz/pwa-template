@@ -23,7 +23,7 @@ export const NameSearch = () => {
   const [name, setName] = useState<string>('')
 
   useEffect(() => {
-    const cachedName = sessionStorage.getItem('name')
+    const cachedName = localStorage.getItem('name')
 
     if (cachedName) setName(cachedName)
   }, [])
@@ -56,7 +56,7 @@ export const NameSearch = () => {
               const value = e.currentTarget.value
 
               if (value === '') {
-                sessionStorage.removeItem('json-records')
+                localStorage.removeItem('json-records')
               }
 
               setName(value)
@@ -68,7 +68,7 @@ export const NameSearch = () => {
           disabled={!isAvailable}
           className={`${common.button} ${styles.searchButton}`}
           onClick={() => {
-            sessionStorage.setItem('name', debouncedName)
+            localStorage.setItem('name', debouncedName)
             router.push(
               `/setup?${createQueryString<SetupStep>('step', 'avatar')}`,
             )

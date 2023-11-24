@@ -1,0 +1,23 @@
+.container {
+  padding: 16px;
+  border-radius: 16px;
+  text-decoration: none;
+}
+
+.error {
+  color: white;
+  background-color: #ea5353;
+}
+
+.error:hover {
+  background-color: #b82d2d;
+}
+
+.loading {
+  color: white;
+  background-color: #867ded;
+}
+
+.loading:hover {
+  background-color: #574dbb;
+}

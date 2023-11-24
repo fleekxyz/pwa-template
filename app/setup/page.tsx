@@ -11,6 +11,7 @@ import Image from 'next/image'
 import { AvatarUpload } from '../../components/setup/AvatarUpload'
 import { TextRecordsInput } from '../../components/setup/TextRecordsInput'
 import { Commit } from '../../components/setup/Commit'
+import { Wait } from '../../components/setup/Wait'
 
 const OnboardingProcess = ({ step }: { step: SetupStep }) => {
   switch (step) {
@@ -23,6 +24,8 @@ const OnboardingProcess = ({ step }: { step: SetupStep }) => {
       return <TextRecordsInput />
     case 'commit':
       return <Commit />
+    case 'wait':
+      return <Wait />
   }
 }
 

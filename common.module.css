@@ -21,9 +21,6 @@
 
 .button:disabled {
   cursor: not-allowed;
-}
-
-.button:disabled:hover {
   background-color: var(--slate-dark-4);
 }
 

@@ -25,7 +25,7 @@ export const AvatarUpload = () => {
   })
 
   useEffect(() => {
-    const imageCached = sessionStorage.getItem('avatar')
+    const imageCached = localStorage.getItem('avatar')
 
     if (imageCached) {
       setImage(
@@ -53,7 +53,7 @@ export const AvatarUpload = () => {
               className={styles.image}
               src={image.preview}
               alt="Avatar"
-              onLoad={() => sessionStorage.setItem('avatar', image.preview)}
+              onLoad={() => localStorage.setItem('avatar', image.preview)}
               onError={() => {
                 setImage(null)
               }}
@@ -77,7 +77,7 @@ export const AvatarUpload = () => {
             <button
               className={common.button}
               onClick={() => {
-                sessionStorage.removeItem('avatar')
+                localStorage.removeItem('avatar')
                 URL.revokeObjectURL(image.preview)
                 setImage(null)
               }}
